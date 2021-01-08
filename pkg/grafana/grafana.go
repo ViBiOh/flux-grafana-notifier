@@ -77,9 +77,7 @@ func (a app) Handler() http.Handler {
 			return
 		}
 
-		message := fmt.Sprintf("%s %s is synchronized", event.InvolvedObject.Kind, event.InvolvedObject.Name)
-
-		a.send(r.Context(), message, event.InvolvedObject.Namespace, event.Severity)
+		a.send(r.Context(), event.Message, event.InvolvedObject.Kind, event.InvolvedObject.Namespace, event.InvolvedObject.Name, event.Severity)
 	})
 }
 
