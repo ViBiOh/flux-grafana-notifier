@@ -47,7 +47,7 @@ func Flags(fs *flag.FlagSet, prefix string) Config {
 
 // New creates new App from Config
 func New(config Config) App {
-	req := request.New().Post(strings.TrimSpace(*config.address))
+	req := request.New().Post(fmt.Sprintf("%s/api/annotations", strings.TrimSpace(*config.address)))
 
 	username := strings.TrimSpace(*config.username)
 	if len(username) != 0 {
