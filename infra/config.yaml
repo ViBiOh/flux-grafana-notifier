@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: goweb
-  namespace: default
+  name: flux-notifier
+  namespace: flux
 spec:
   interval: 120m
   chart:
@@ -15,12 +15,12 @@ spec:
         namespace: flux-system
       interval: 120m
   values:
-    nameOverride: goweb
+    nameOverride: flux-notifier
     image:
-      repository: vibioh/goweb:latest # {"$imagepolicy": "default:goweb"}
+      repository: vibioh/flux-notifier:latest # {"$imagepolicy": "default:flux-notifier"}
     config:
-      API_LOGGER_JSON: "true"
-    ingress:
-      enabled: true
-      hosts:
-      - api.vibioh.fr
+      FLUX_NOTIFIER_LOGGER_JSON: "true"
+      FLUX_NOTIFIER_GRAFANA_ADDRESS: http://grafana.monitoring
+      FLUX_NOTIFIER_GRAFANA_USERNAME: vibioh
+    secrets:
+      FLUX_NOTIFIER_GRAFANA_PASSWORD: AgBh6iKXxLpKe8VWvol1T226lsHEo/id3rjQWCXjddFUi66demUqWxWbXZ27fhyyckXH4Y4mtXVKweY6dReW++NUb4OLN81MO4jvmPGBJPp5/37Ha5kSENZFwIYpNOUtOYeupUj9Wu1utZGhmFOCS413DCX0nWycNxP6goUaKGbA9yil8cY3VdUfxnZl9XuW4rQAUv4+7Znj8T9pFfwJlsK3B8gHdR4fdAhtVHUToDpdqx4HzJ9WI14DEySjsUkJHtOawwad/lV2s9yj570IqVUAqC8shNvOj3ohy2b743vKrH4eRnyuJt2+cCEDKppJHn1rTlZhvmITTAkSHX614iEqsad0yKF+vP9waWnLoanU0p1fwbyYvVsrZd89ZSogth0MXxTBAThzKCgJddIa37hL/rykVmNVkxOAadFDuC6raAqGOCBhVqjVWI4EMBRPz+MTrphLInvSQbC9gzo9j34UOYEehybu0jr0YeIrQmpYhj7c2edr5xUlOGYCKCt4pA8V882XcrOeEZ8m6NEwK/PgqPfPr/lZfaIoUM2kmpuj77EYH0YV5+36IsJFrsl9d9nn3JK2H2IKRsd+L5Ct59bNsxasBxbyh2c48ZYBeCYC8yDmHV/2LB0LEBlDVxGTKh9zHp+LtCD41Tjsk5s4ZoIM4jq4TguVBqwKUrwcpbYRi2+cS+nxPcRthnhEqi4Ux4YSbhMlJmQih4zM4/779TGO/6/L9TTJR991

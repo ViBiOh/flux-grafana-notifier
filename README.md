@@ -1,15 +1,15 @@
-# goweb
+# flux-notifier
 
-[![Build](https://github.com/ViBiOh/goweb/workflows/Build/badge.svg)](https://github.com/ViBiOh/goweb/actions)
-[![codecov](https://codecov.io/gh/ViBiOh/goweb/branch/master/graph/badge.svg)](https://codecov.io/gh/ViBiOh/goweb)
-[![Go Report Card](https://goreportcard.com/badge/github.com/ViBiOh/goweb)](https://goreportcard.com/report/github.com/ViBiOh/goweb)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ViBiOh_goweb&metric=alert_status)](https://sonarcloud.io/dashboard?id=ViBiOh_goweb)
+[![Build](https://github.com/ViBiOh/flux-notifier/workflows/Build/badge.svg)](https://github.com/ViBiOh/flux-notifier/actions)
+[![codecov](https://codecov.io/gh/ViBiOh/flux-notifier/branch/master/graph/badge.svg)](https://codecov.io/gh/ViBiOh/flux-notifier)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ViBiOh/flux-notifier)](https://goreportcard.com/report/github.com/ViBiOh/flux-notifier)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ViBiOh_flux-notifier&metric=alert_status)](https://sonarcloud.io/dashboard?id=ViBiOh_flux-notifier)
 
 ## Getting started
 
 Golang binary is built with static link. You can download it directly from the Github Release page or build it by yourself by cloning this repo and running make.
 
-A Docker image is available for amd64, arm and arm64 platforms on Docker Hub: vibioh/goweb.
+A Docker image is available for amd64, arm and arm64 platforms on Docker Hub: vibioh/flux-notifier.
 
 You can configure app by passing CLI args or environment variables (cf. Usage section). CLI override environment variables.
 
@@ -28,61 +28,65 @@ Following variables are required for CI:
 ## Usage
 
 ```bash
-Usage of api:
+Usage of flux-notifier:
   -address string
-        [http] Listen address {API_ADDRESS}
+        [http] Listen address {FLUX_NOTIFIER_ADDRESS}
   -cert string
-        [http] Certificate file {API_CERT}
+        [http] Certificate file {FLUX_NOTIFIER_CERT}
   -corsCredentials
-        [cors] Access-Control-Allow-Credentials {API_CORS_CREDENTIALS}
+        [cors] Access-Control-Allow-Credentials {FLUX_NOTIFIER_CORS_CREDENTIALS}
   -corsExpose string
-        [cors] Access-Control-Expose-Headers {API_CORS_EXPOSE}
+        [cors] Access-Control-Expose-Headers {FLUX_NOTIFIER_CORS_EXPOSE}
   -corsHeaders string
-        [cors] Access-Control-Allow-Headers {API_CORS_HEADERS} (default "Content-Type")
+        [cors] Access-Control-Allow-Headers {FLUX_NOTIFIER_CORS_HEADERS} (default "Content-Type")
   -corsMethods string
-        [cors] Access-Control-Allow-Methods {API_CORS_METHODS} (default "GET")
+        [cors] Access-Control-Allow-Methods {FLUX_NOTIFIER_CORS_METHODS} (default "GET")
   -corsOrigin string
-        [cors] Access-Control-Allow-Origin {API_CORS_ORIGIN} (default "*")
+        [cors] Access-Control-Allow-Origin {FLUX_NOTIFIER_CORS_ORIGIN} (default "*")
   -csp string
-        [owasp] Content-Security-Policy {API_CSP} (default "default-src 'self'; base-uri 'self'")
+        [owasp] Content-Security-Policy {FLUX_NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
   -frameOptions string
-        [owasp] X-Frame-Options {API_FRAME_OPTIONS} (default "deny")
+        [owasp] X-Frame-Options {FLUX_NOTIFIER_FRAME_OPTIONS} (default "deny")
   -graceDuration string
-        [http] Grace duration when SIGTERM received {API_GRACE_DURATION} (default "30s")
+        [http] Grace duration when SIGTERM received {FLUX_NOTIFIER_GRACE_DURATION} (default "30s")
+  -grafanaAddress string
+        [grafana] Address {FLUX_NOTIFIER_GRAFANA_ADDRESS} (default "http://grafana")
+  -grafanaPassword string
+        [grafana] Password for auth {FLUX_NOTIFIER_GRAFANA_PASSWORD}
+  -grafanaUsername string
+        [grafana] Username for auth {FLUX_NOTIFIER_GRAFANA_USERNAME}
   -hsts
-        [owasp] Indicate Strict Transport Security {API_HSTS} (default true)
+        [owasp] Indicate Strict Transport Security {FLUX_NOTIFIER_HSTS} (default true)
   -idleTimeout string
-        [http] Idle Timeout {API_IDLE_TIMEOUT} (default "2m")
+        [http] Idle Timeout {FLUX_NOTIFIER_IDLE_TIMEOUT} (default "2m")
   -key string
-        [http] Key file {API_KEY}
-  -location string
-        [hello] TimeZone for displaying current time {API_LOCATION} (default "Europe/Paris")
+        [http] Key file {FLUX_NOTIFIER_KEY}
   -loggerJson
-        [logger] Log format as JSON {API_LOGGER_JSON}
+        [logger] Log format as JSON {FLUX_NOTIFIER_LOGGER_JSON}
   -loggerLevel string
-        [logger] Logger level {API_LOGGER_LEVEL} (default "INFO")
+        [logger] Logger level {FLUX_NOTIFIER_LOGGER_LEVEL} (default "INFO")
   -loggerLevelKey string
-        [logger] Key for level in JSON {API_LOGGER_LEVEL_KEY} (default "level")
+        [logger] Key for level in JSON {FLUX_NOTIFIER_LOGGER_LEVEL_KEY} (default "level")
   -loggerMessageKey string
-        [logger] Key for message in JSON {API_LOGGER_MESSAGE_KEY} (default "message")
+        [logger] Key for message in JSON {FLUX_NOTIFIER_LOGGER_MESSAGE_KEY} (default "message")
   -loggerTimeKey string
-        [logger] Key for timestamp in JSON {API_LOGGER_TIME_KEY} (default "time")
+        [logger] Key for timestamp in JSON {FLUX_NOTIFIER_LOGGER_TIME_KEY} (default "time")
   -okStatus int
-        [http] Healthy HTTP Status code {API_OK_STATUS} (default 204)
+        [http] Healthy HTTP Status code {FLUX_NOTIFIER_OK_STATUS} (default 204)
   -port uint
-        [http] Listen port {API_PORT} (default 1080)
+        [http] Listen port {FLUX_NOTIFIER_PORT} (default 1080)
   -prometheusIgnore string
-        [prometheus] Ignored path prefixes for metrics, comma separated {API_PROMETHEUS_IGNORE}
+        [prometheus] Ignored path prefixes for metrics, comma separated {FLUX_NOTIFIER_PROMETHEUS_IGNORE}
   -prometheusPath string
-        [prometheus] Path for exposing metrics {API_PROMETHEUS_PATH} (default "/metrics")
+        [prometheus] Path for exposing metrics {FLUX_NOTIFIER_PROMETHEUS_PATH} (default "/metrics")
   -readTimeout string
-        [http] Read Timeout {API_READ_TIMEOUT} (default "5s")
+        [http] Read Timeout {FLUX_NOTIFIER_READ_TIMEOUT} (default "5s")
   -shutdownTimeout string
-        [http] Shutdown Timeout {API_SHUTDOWN_TIMEOUT} (default "10s")
+        [http] Shutdown Timeout {FLUX_NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
   -url string
-        [alcotest] URL to check {API_URL}
+        [alcotest] URL to check {FLUX_NOTIFIER_URL}
   -userAgent string
-        [alcotest] User-Agent for check {API_USER_AGENT} (default "Alcotest")
+        [alcotest] User-Agent for check {FLUX_NOTIFIER_USER_AGENT} (default "Alcotest")
   -writeTimeout string
-        [http] Write Timeout {API_WRITE_TIMEOUT} (default "10s")
+        [http] Write Timeout {FLUX_NOTIFIER_WRITE_TIMEOUT} (default "10s")
 ```
