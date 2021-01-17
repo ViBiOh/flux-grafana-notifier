@@ -33,7 +33,9 @@ type Config struct {
 }
 
 type app struct {
-	req *request.Request
+	address  string
+	username string
+	password string
 }
 
 // Flags adds flags for configuring package
@@ -47,14 +49,11 @@ func Flags(fs *flag.FlagSet, prefix string) Config {
 
 // New creates new App from Config
 func New(config Config) App {
-	req := request.New().Post(fmt.Sprintf("%s/api/annotations", strings.TrimSpace(*config.address)))
-
-	username := strings.TrimSpace(*config.username)
-	if len(username) != 0 {
-		req.BasicAuth(username, strings.TrimSpace(*config.password))
+	return app{
+		address:  fmt.Sprintf("%s/api/annotations", strings.TrimSpace(*config.address)),
+		username: strings.TrimSpace(*config.username),
+		password: strings.TrimSpace(*config.password),
 	}
-
-	return app{req: req}
 }
 
 // Handler for Hello request. Should be use with net/http
@@ -82,7 +81,12 @@ func (a app) Handler() http.Handler {
 }
 
 func (a app) send(ctx context.Context, text string, tags ...string) {
-	resp, err := a.req.JSON(ctx, annotationPayload{
+	req := request.New().Post(a.address)
+	if len(a.username) != 0 {
+		req.BasicAuth(a.username, a.password)
+	}
+
+	resp, err := req.JSON(ctx, annotationPayload{
 		Text: text,
 		Tags: tags,
 	})
