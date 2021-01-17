@@ -76,7 +76,8 @@ func (a app) Handler() http.Handler {
 			return
 		}
 
-		a.send(r.Context(), event.Message, event.InvolvedObject.Kind, event.InvolvedObject.Namespace, event.InvolvedObject.Name, event.Severity)
+		w.WriteHeader(http.StatusOK)
+		a.send(context.Background(), event.Message, event.InvolvedObject.Kind, event.InvolvedObject.Namespace, event.InvolvedObject.Name, event.Severity)
 	})
 }
 
