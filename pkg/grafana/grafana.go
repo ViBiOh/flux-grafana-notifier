@@ -82,6 +82,10 @@ func (a app) Handler() http.Handler {
 }
 
 func (a app) send(ctx context.Context, text string, tags ...string) {
+	if strings.HasPrefix("no update", text) {
+		return
+	}
+
 	req := request.New().Post(a.address)
 	if len(a.username) != 0 {
 		req.BasicAuth(a.username, a.password)
