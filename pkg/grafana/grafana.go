@@ -82,7 +82,7 @@ func (a app) Handler() http.Handler {
 }
 
 func (a app) send(ctx context.Context, text string, tags ...string) {
-	if strings.HasPrefix("no update", text) || len(text) > 255 {
+	if strings.HasPrefix(text, "no update") || len(text) > 255 {
 		return
 	}
 
