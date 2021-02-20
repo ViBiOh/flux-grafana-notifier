@@ -30,9 +30,9 @@ Following variables are required for CI:
 ```bash
 Usage of flux-notifier:
   -address string
-        [http] Listen address {FLUX_NOTIFIER_ADDRESS}
+        [server] Listen address {FLUX_NOTIFIER_ADDRESS}
   -cert string
-        [http] Certificate file {FLUX_NOTIFIER_CERT}
+        [server] Certificate file {FLUX_NOTIFIER_CERT}
   -corsCredentials
         [cors] Access-Control-Allow-Credentials {FLUX_NOTIFIER_CORS_CREDENTIALS}
   -corsExpose string
@@ -58,9 +58,9 @@ Usage of flux-notifier:
   -hsts
         [owasp] Indicate Strict Transport Security {FLUX_NOTIFIER_HSTS} (default true)
   -idleTimeout string
-        [http] Idle Timeout {FLUX_NOTIFIER_IDLE_TIMEOUT} (default "2m")
+        [server] Idle Timeout {FLUX_NOTIFIER_IDLE_TIMEOUT} (default "2m")
   -key string
-        [http] Key file {FLUX_NOTIFIER_KEY}
+        [server] Key file {FLUX_NOTIFIER_KEY}
   -loggerJson
         [logger] Log format as JSON {FLUX_NOTIFIER_LOGGER_JSON}
   -loggerLevel string
@@ -74,19 +74,33 @@ Usage of flux-notifier:
   -okStatus int
         [http] Healthy HTTP Status code {FLUX_NOTIFIER_OK_STATUS} (default 204)
   -port uint
-        [http] Listen port {FLUX_NOTIFIER_PORT} (default 1080)
+        [server] Listen port {FLUX_NOTIFIER_PORT} (default 1080)
+  -prometheusAddress string
+        [prometheus] Listen address {FLUX_NOTIFIER_PROMETHEUS_ADDRESS}
+  -prometheusCert string
+        [prometheus] Certificate file {FLUX_NOTIFIER_PROMETHEUS_CERT}
+  -prometheusIdleTimeout string
+        [prometheus] Idle Timeout {FLUX_NOTIFIER_PROMETHEUS_IDLE_TIMEOUT} (default "10s")
   -prometheusIgnore string
         [prometheus] Ignored path prefixes for metrics, comma separated {FLUX_NOTIFIER_PROMETHEUS_IGNORE}
-  -prometheusPath string
-        [prometheus] Path for exposing metrics {FLUX_NOTIFIER_PROMETHEUS_PATH} (default "/metrics")
+  -prometheusKey string
+        [prometheus] Key file {FLUX_NOTIFIER_PROMETHEUS_KEY}
+  -prometheusPort uint
+        [prometheus] Listen port {FLUX_NOTIFIER_PROMETHEUS_PORT} (default 9090)
+  -prometheusReadTimeout string
+        [prometheus] Read Timeout {FLUX_NOTIFIER_PROMETHEUS_READ_TIMEOUT} (default "5s")
+  -prometheusShutdownTimeout string
+        [prometheus] Shutdown Timeout {FLUX_NOTIFIER_PROMETHEUS_SHUTDOWN_TIMEOUT} (default "5s")
+  -prometheusWriteTimeout string
+        [prometheus] Write Timeout {FLUX_NOTIFIER_PROMETHEUS_WRITE_TIMEOUT} (default "10s")
   -readTimeout string
-        [http] Read Timeout {FLUX_NOTIFIER_READ_TIMEOUT} (default "5s")
+        [server] Read Timeout {FLUX_NOTIFIER_READ_TIMEOUT} (default "5s")
   -shutdownTimeout string
-        [http] Shutdown Timeout {FLUX_NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
+        [server] Shutdown Timeout {FLUX_NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
   -url string
         [alcotest] URL to check {FLUX_NOTIFIER_URL}
   -userAgent string
         [alcotest] User-Agent for check {FLUX_NOTIFIER_USER_AGENT} (default "Alcotest")
   -writeTimeout string
-        [http] Write Timeout {FLUX_NOTIFIER_WRITE_TIMEOUT} (default "10s")
+        [server] Write Timeout {FLUX_NOTIFIER_WRITE_TIMEOUT} (default "10s")
 ```
