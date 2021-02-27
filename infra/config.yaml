@@ -24,7 +24,7 @@ spec:
   values:
     nameOverride: flux-notifier
     image:
-      repository: vibioh/flux-notifier:202102212024 # {"$imagepolicy": "default:flux-notifier"}
+      repository: vibioh/flux-notifier:202102212024 # {"$imagepolicy": "default:flux-flux-notifier-api"}
     config:
       FLUX_NOTIFIER_LOGGER_JSON: "true"
       FLUX_NOTIFIER_GRAFANA_ADDRESS: http://grafana.monitoring
