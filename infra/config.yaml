@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app
-      version: '0.0.47'
+      version: '0.0.48'
       sourceRef:
         kind: HelmRepository
         name: vibioh
@@ -25,7 +25,8 @@ spec:
   values:
     nameOverride: flux-notifier
     image:
-      repository: vibioh/flux-notifier:202103020807 # {"$imagepolicy": "default:flux-flux-notifier-api"}
+      name: vibioh/flux-notifier
+      tag: 202103020807 # {"$imagepolicy": "default:flux-flux-notifier-api:tag"}
     config:
       FLUX_NOTIFIER_LOGGER_JSON: 'true'
       FLUX_NOTIFIER_GRAFANA_ADDRESS: http://grafana.monitoring
