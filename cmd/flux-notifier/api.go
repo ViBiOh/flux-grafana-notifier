@@ -16,11 +16,6 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/server"
 )
 
-const (
-	helloPath = "/hello"
-	dumpPath  = "/dump"
-)
-
 func main() {
 	fs := flag.NewFlagSet("flux-notifier", flag.ExitOnError)
 
