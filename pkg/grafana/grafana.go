@@ -2,14 +2,14 @@ package grafana
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"net/http"
 	"strings"
 
+	"github.com/ViBiOh/httputils/pkg/httperror"
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
-	"github.com/ViBiOh/httputils/v4/pkg/httperror"
+	"github.com/ViBiOh/httputils/v4/pkg/httpjson"
 	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	"github.com/ViBiOh/httputils/v4/pkg/request"
 	"github.com/fluxcd/pkg/recorder"
@@ -64,15 +64,9 @@ func (a app) Handler() http.Handler {
 			return
 		}
 
-		body, err := request.ReadBodyRequest(r)
-		if err != nil {
-			httperror.BadRequest(w, fmt.Errorf("unable to read body request: %s", err))
-			return
-		}
-
 		var event recorder.Event
-		if err := json.Unmarshal(body, &event); err != nil {
-			httperror.BadRequest(w, fmt.Errorf("unable to parse json payload: %s", err))
+		if err := httpjson.Parse(r, &event, "event"); err != nil {
+			httperror.InternalServerError(w, err)
 			return
 		}
 
