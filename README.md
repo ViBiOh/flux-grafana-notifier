@@ -2,7 +2,6 @@
 
 [![Build](https://github.com/ViBiOh/flux-notifier/workflows/Build/badge.svg)](https://github.com/ViBiOh/flux-notifier/actions)
 [![codecov](https://codecov.io/gh/ViBiOh/flux-notifier/branch/main/graph/badge.svg)](https://codecov.io/gh/ViBiOh/flux-notifier)
-[![Go Report Card](https://goreportcard.com/badge/github.com/ViBiOh/flux-notifier)](https://goreportcard.com/report/github.com/ViBiOh/flux-notifier)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ViBiOh_flux-notifier&metric=alert_status)](https://sonarcloud.io/dashboard?id=ViBiOh_flux-notifier)
 
 ## Getting started
