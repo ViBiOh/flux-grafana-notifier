@@ -13,7 +13,7 @@ require (
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/prometheus/common v0.23.0 // indirect
 	golang.org/x/net v0.0.0-20210501142056-aec3718b3fa0 // indirect
-	golang.org/x/sys v0.0.0-20210426230700-d19ff857e887 // indirect
+	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
 	k8s.io/api v0.21.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.1 // indirect
 )
