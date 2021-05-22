@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app
-      version: "0.0.69"
+      version: "0.0.70"
       sourceRef:
         kind: HelmRepository
         name: vibioh
@@ -32,5 +32,3 @@ spec:
       FLUX_NOTIFIER_GRAFANA_USERNAME: vibioh
     secrets:
       FLUX_NOTIFIER_GRAFANA_PASSWORD: AgBZK9AWw9YHlxj7jS/fEMjnlAdXho5EmBd8sp/B24J/SnDvJBjrfk4AVRQAeNjrQGm4oOVb/zWMkGatfIz753JRx7Q/CNwpN2XfzVaMB19/u+PEPoNSHteWXDNF1wterwCS8c0s8cUNq2ssbVEvS06/80AltFSNbDKWB2DjUxFXrv7GDUA5yW96H3LvgaJiPP0JUem+wyyd6ZP2Y3c8244/SMBNBxtuyaOXAceC/zQgCabvxTIV1rvyiOaYSv0zWMQQXR7o+GBSoB31wCvvB5XyJsM0Nay4T1F5IA2tZF7xLhkoNLE2yDTvwAu8UN5OjSDM91UtHv5xq/b/y0DrNSJ3lg3ItNSZaE4cl2znQwL+wv+GHd5rvQ/Qr8lIR84x1WLZDXLRYm3Gl527e63hNrk2ej73UUieIIMzERyaBkWtuHxf9p/UMEVK57/5G6IjEqQGqnP/0BPrrvYUY7EYtWlXKMn9BP8aEzd5NJeT0b5yOtwxu0YIiSB4T8fkqXEaJRiUH1OvQhM/z4UOfoZzd9jkwMVSE0FiND/yV/pR/cnMyvtbA4TNKXgup79InCp+KmgysGM/uDNhfJ02PgpiqZ8tOY2keLucyXaOdWJ1WA9iF6ztyrCiqHoSE5yXqklaefzrlZ+mw0+Vh/XZNNCVIYFTG3lBAsrQN6VizxBaPUpnC9ALx4Z5+j5ym55s4uoiPpP1cfev9sEtJ/6Cvgrn1JB0DPOHWN+iJw16
-    podDisruption:
-      enabled: false
