@@ -65,8 +65,8 @@ func (a app) Handler() http.Handler {
 		}
 
 		var event recorder.Event
-		if err := httpjson.Parse(r, &event, "event"); err != nil {
-			httperror.InternalServerError(w, err)
+		if err := httpjson.Parse(r, &event); err != nil {
+			httperror.InternalServerError(w, fmt.Errorf("unable to parse event: %s", err))
 			return
 		}
 
