@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/ViBiOh/httputils v1.8.2
-	github.com/ViBiOh/httputils/v4 v4.12.1
+	github.com/ViBiOh/httputils/v4 v4.13.0
 	github.com/fluxcd/pkg/recorder v0.0.6
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
