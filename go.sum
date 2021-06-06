@@ -13,8 +13,8 @@ github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWX
 github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMxUHB2q5Ap20/P/eIdh4G0pI=
 github.com/ViBiOh/httputils v1.8.2 h1:ulvdhtq8/Ww4QihYJ5uf0WDTG42yPuwojUCbfv/9W2E=
 github.com/ViBiOh/httputils v1.8.2/go.mod h1:xy5GfWhXhTyGeJ6fVscP1Lm+V6SKpbeO7oAg6aVQhlg=
-github.com/ViBiOh/httputils/v4 v4.12.1 h1:zpLJkpcm9IgsB81rcaIr02L9DR7ZOG1fY9N1BZQXZTM=
-github.com/ViBiOh/httputils/v4 v4.12.1/go.mod h1:F34nMF5ethfNcMHEyv6cYKrhTJQmPjm41xLIhCVmKDQ=
+github.com/ViBiOh/httputils/v4 v4.13.0 h1:Hb2oFWH81D6PYg6CNAyQhuomHAaaq64YgWUA5fGgDmk=
+github.com/ViBiOh/httputils/v4 v4.13.0/go.mod h1:X7p2FfmcB4Yb8sDA+BcUkS8j9lf2/GqNkK8rap2KkfI=
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
@@ -102,7 +102,7 @@ github.com/go-openapi/spec v0.19.3/go.mod h1:FpwSN1ksY1eteniUU7X0N/BgJ7a4WvBFVA8
 github.com/go-openapi/swag v0.0.0-20160704191624-1d0bd113de87/go.mod h1:DXUve3Dpr1UfpPtxFw+EFuQ41HhCWZfha5jSVRG7C7I=
 github.com/go-openapi/swag v0.19.2/go.mod h1:POnQmlKehdgb5mhVOsnJFsivZCEZ/vjK9gh66Z9tfKk=
 github.com/go-openapi/swag v0.19.5/go.mod h1:POnQmlKehdgb5mhVOsnJFsivZCEZ/vjK9gh66Z9tfKk=
-github.com/go-redis/redis/v8 v8.9.0/go.mod h1:ik7vb7+gm8Izylxu6kf6wG26/t2VljgCfSQ1DM4O1uU=
+github.com/go-redis/redis/v8 v8.10.0/go.mod h1:vXLTvigok0VtUX0znvbcEW1SOt4OA9CU1ZfnOtKOaiM=
 github.com/go-sql-driver/mysql v1.4.0/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
 github.com/gogo/googleapis v1.1.0/go.mod h1:gf4bu3Q80BeJ6H1S1vYPm8/ELATdvryBaNFGgqEef3s=
