@@ -21,8 +21,10 @@ type annotationPayload struct {
 }
 
 // App of package
-type App interface {
-	Handler() http.Handler
+type App struct {
+	address  string
+	username string
+	password string
 }
 
 // Config of package
@@ -30,12 +32,6 @@ type Config struct {
 	address  *string
 	username *string
 	password *string
-}
-
-type app struct {
-	address  string
-	username string
-	password string
 }
 
 // Flags adds flags for configuring package
@@ -49,7 +45,7 @@ func Flags(fs *flag.FlagSet, prefix string) Config {
 
 // New creates new App from Config
 func New(config Config) App {
-	return app{
+	return App{
 		address:  fmt.Sprintf("%s/api/annotations", strings.TrimSpace(*config.address)),
 		username: strings.TrimSpace(*config.username),
 		password: strings.TrimSpace(*config.password),
@@ -57,7 +53,7 @@ func New(config Config) App {
 }
 
 // Handler for Hello request. Should be use with net/http
-func (a app) Handler() http.Handler {
+func (a App) Handler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			w.WriteHeader(http.StatusMethodNotAllowed)
@@ -75,7 +71,7 @@ func (a app) Handler() http.Handler {
 	})
 }
 
-func (a app) send(ctx context.Context, text string, tags ...string) {
+func (a App) send(ctx context.Context, text string, tags ...string) {
 	if strings.HasPrefix(text, "no update") || len(text) > 255 {
 		return
 	}
