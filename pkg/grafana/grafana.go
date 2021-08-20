@@ -37,9 +37,9 @@ type Config struct {
 // Flags adds flags for configuring package
 func Flags(fs *flag.FlagSet, prefix string) Config {
 	return Config{
-		address:  flags.New(prefix, "grafana").Name("Address").Default("http://grafana").Label("Address").ToString(fs),
-		username: flags.New(prefix, "grafana").Name("Username").Default("").Label("Username for auth").ToString(fs),
-		password: flags.New(prefix, "grafana").Name("Password").Default("").Label("Password for auth").ToString(fs),
+		address:  flags.New(prefix, "grafana", "Address").Default("http://grafana", nil).Label("Address").ToString(fs),
+		username: flags.New(prefix, "grafana", "Username").Default("", nil).Label("Username for auth").ToString(fs),
+		password: flags.New(prefix, "grafana", "Password").Default("", nil).Label("Password for auth").ToString(fs),
 	}
 }
 

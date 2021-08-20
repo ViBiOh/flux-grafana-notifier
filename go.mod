@@ -3,7 +3,7 @@ module github.com/ViBiOh/flux-notifier
 go 1.17
 
 require (
-	github.com/ViBiOh/httputils/v4 v4.20.1
+	github.com/ViBiOh/httputils/v4 v4.21.1
 	github.com/fluxcd/pkg/recorder v0.0.6
 	github.com/stretchr/testify v1.7.0 // indirect
 )
