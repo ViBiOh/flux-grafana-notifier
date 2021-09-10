@@ -25,7 +25,7 @@ spec:
     nameOverride: notifier
     image:
       name: vibioh/notifier
-      tag: "latest" # {"$imagepolicy": "default:flux-notifier-api:tag"}
+      tag: "202109102146" # {"$imagepolicy": "default:flux-notifier-api:tag"}
     config:
       NOTIFIER_LOGGER_JSON: "true"
       NOTIFIER_FLUX_ADDRESS: http://grafana.monitoring
