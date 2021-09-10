@@ -5,7 +5,7 @@ ifneq ("$(wildcard .env)","")
 	export
 endif
 
-APP_NAME = flux-notifier
+APP_NAME = notifier
 PACKAGES ?= ./...
 
 MAIN_SOURCE = cmd/$(APP_NAME)/api.go

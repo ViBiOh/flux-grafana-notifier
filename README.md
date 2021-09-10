@@ -1,14 +1,14 @@
-# flux-notifier
+# notifier
 
-[![Build](https://github.com/ViBiOh/flux-notifier/workflows/Build/badge.svg)](https://github.com/ViBiOh/flux-notifier/actions)
-[![codecov](https://codecov.io/gh/ViBiOh/flux-notifier/branch/main/graph/badge.svg)](https://codecov.io/gh/ViBiOh/flux-notifier)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ViBiOh_flux-notifier&metric=alert_status)](https://sonarcloud.io/dashboard?id=ViBiOh_flux-notifier)
+[![Build](https://github.com/ViBiOh/notifier/workflows/Build/badge.svg)](https://github.com/ViBiOh/notifier/actions)
+[![codecov](https://codecov.io/gh/ViBiOh/notifier/branch/main/graph/badge.svg)](https://codecov.io/gh/ViBiOh/notifier)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ViBiOh_notifier&metric=alert_status)](https://sonarcloud.io/dashboard?id=ViBiOh_notifier)
 
 ## Getting started
 
-Golang binary is built with static link. You can download it directly from the [Github Release page](https://github.com/ViBiOh/flux-notifier/releases) or build it by yourself by cloning this repo and running `make`.
+Golang binary is built with static link. You can download it directly from the [Github Release page](https://github.com/ViBiOh/notifier/releases) or build it by yourself by cloning this repo and running `make`.
 
-A Docker image is available for `amd64`, `arm` and `arm64` platforms on Docker Hub: [vibioh/flux-notifier](https://hub.docker.com/r/vibioh/flux-notifier/tags).
+A Docker image is available for `amd64`, `arm` and `arm64` platforms on Docker Hub: [vibioh/notifier](https://hub.docker.com/r/vibioh/notifier/tags).
 
 You can configure app by passing CLI args or environment variables (cf. [Usage](#usage) section). CLI override environment variables.
 
@@ -31,81 +31,81 @@ The application can be configured by passing CLI args described below or their e
 Be careful when using the CLI values, if someone list the processes on the system, they will appear in plain-text. Pass secrets by environment variables: it's less easily visible.
 
 ```bash
-Usage of flux-notifier:
+Usage of notifier:
   -address string
-        [server] Listen address {FLUX_NOTIFIER_ADDRESS}
+        [server] Listen address {NOTIFIER_ADDRESS}
   -cert string
-        [server] Certificate file {FLUX_NOTIFIER_CERT}
+        [server] Certificate file {NOTIFIER_CERT}
   -corsCredentials
-        [cors] Access-Control-Allow-Credentials {FLUX_NOTIFIER_CORS_CREDENTIALS}
+        [cors] Access-Control-Allow-Credentials {NOTIFIER_CORS_CREDENTIALS}
   -corsExpose string
-        [cors] Access-Control-Expose-Headers {FLUX_NOTIFIER_CORS_EXPOSE}
+        [cors] Access-Control-Expose-Headers {NOTIFIER_CORS_EXPOSE}
   -corsHeaders string
-        [cors] Access-Control-Allow-Headers {FLUX_NOTIFIER_CORS_HEADERS} (default "Content-Type")
+        [cors] Access-Control-Allow-Headers {NOTIFIER_CORS_HEADERS} (default "Content-Type")
   -corsMethods string
-        [cors] Access-Control-Allow-Methods {FLUX_NOTIFIER_CORS_METHODS} (default "GET")
+        [cors] Access-Control-Allow-Methods {NOTIFIER_CORS_METHODS} (default "GET")
   -corsOrigin string
-        [cors] Access-Control-Allow-Origin {FLUX_NOTIFIER_CORS_ORIGIN} (default "*")
+        [cors] Access-Control-Allow-Origin {NOTIFIER_CORS_ORIGIN} (default "*")
   -csp string
-        [owasp] Content-Security-Policy {FLUX_NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
+        [owasp] Content-Security-Policy {NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
+  -fluxAddress string
+        [flux] Grafana Address {NOTIFIER_FLUX_ADDRESS} (default "http://grafana")
+  -fluxPassword string
+        [flux] Grafana Basic Auth Password {NOTIFIER_FLUX_PASSWORD}
+  -fluxUsername string
+        [flux] Grafana Basic Auth Username {NOTIFIER_FLUX_USERNAME}
   -frameOptions string
-        [owasp] X-Frame-Options {FLUX_NOTIFIER_FRAME_OPTIONS} (default "deny")
+        [owasp] X-Frame-Options {NOTIFIER_FRAME_OPTIONS} (default "deny")
   -graceDuration string
-        [http] Grace duration when SIGTERM received {FLUX_NOTIFIER_GRACE_DURATION} (default "30s")
-  -grafanaAddress string
-        [grafana] Address {FLUX_NOTIFIER_GRAFANA_ADDRESS} (default "http://grafana")
-  -grafanaPassword string
-        [grafana] Password for auth {FLUX_NOTIFIER_GRAFANA_PASSWORD}
-  -grafanaUsername string
-        [grafana] Username for auth {FLUX_NOTIFIER_GRAFANA_USERNAME}
+        [http] Grace duration when SIGTERM received {NOTIFIER_GRACE_DURATION} (default "30s")
   -hsts
-        [owasp] Indicate Strict Transport Security {FLUX_NOTIFIER_HSTS} (default true)
+        [owasp] Indicate Strict Transport Security {NOTIFIER_HSTS} (default true)
   -idleTimeout string
-        [server] Idle Timeout {FLUX_NOTIFIER_IDLE_TIMEOUT} (default "2m")
+        [server] Idle Timeout {NOTIFIER_IDLE_TIMEOUT} (default "2m")
   -key string
-        [server] Key file {FLUX_NOTIFIER_KEY}
+        [server] Key file {NOTIFIER_KEY}
   -loggerJson
-        [logger] Log format as JSON {FLUX_NOTIFIER_LOGGER_JSON}
+        [logger] Log format as JSON {NOTIFIER_LOGGER_JSON}
   -loggerLevel string
-        [logger] Logger level {FLUX_NOTIFIER_LOGGER_LEVEL} (default "INFO")
+        [logger] Logger level {NOTIFIER_LOGGER_LEVEL} (default "INFO")
   -loggerLevelKey string
-        [logger] Key for level in JSON {FLUX_NOTIFIER_LOGGER_LEVEL_KEY} (default "level")
+        [logger] Key for level in JSON {NOTIFIER_LOGGER_LEVEL_KEY} (default "level")
   -loggerMessageKey string
-        [logger] Key for message in JSON {FLUX_NOTIFIER_LOGGER_MESSAGE_KEY} (default "message")
+        [logger] Key for message in JSON {NOTIFIER_LOGGER_MESSAGE_KEY} (default "message")
   -loggerTimeKey string
-        [logger] Key for timestamp in JSON {FLUX_NOTIFIER_LOGGER_TIME_KEY} (default "time")
+        [logger] Key for timestamp in JSON {NOTIFIER_LOGGER_TIME_KEY} (default "time")
   -okStatus int
-        [http] Healthy HTTP Status code {FLUX_NOTIFIER_OK_STATUS} (default 204)
+        [http] Healthy HTTP Status code {NOTIFIER_OK_STATUS} (default 204)
   -port uint
-        [server] Listen port (0 to disable) {FLUX_NOTIFIER_PORT} (default 1080)
+        [server] Listen port (0 to disable) {NOTIFIER_PORT} (default 1080)
   -prometheusAddress string
-        [prometheus] Listen address {FLUX_NOTIFIER_PROMETHEUS_ADDRESS}
+        [prometheus] Listen address {NOTIFIER_PROMETHEUS_ADDRESS}
   -prometheusCert string
-        [prometheus] Certificate file {FLUX_NOTIFIER_PROMETHEUS_CERT}
+        [prometheus] Certificate file {NOTIFIER_PROMETHEUS_CERT}
   -prometheusGzip
-        [prometheus] Enable gzip compression of metrics output {FLUX_NOTIFIER_PROMETHEUS_GZIP}
+        [prometheus] Enable gzip compression of metrics output {NOTIFIER_PROMETHEUS_GZIP}
   -prometheusIdleTimeout string
-        [prometheus] Idle Timeout {FLUX_NOTIFIER_PROMETHEUS_IDLE_TIMEOUT} (default "10s")
+        [prometheus] Idle Timeout {NOTIFIER_PROMETHEUS_IDLE_TIMEOUT} (default "10s")
   -prometheusIgnore string
-        [prometheus] Ignored path prefixes for metrics, comma separated {FLUX_NOTIFIER_PROMETHEUS_IGNORE}
+        [prometheus] Ignored path prefixes for metrics, comma separated {NOTIFIER_PROMETHEUS_IGNORE}
   -prometheusKey string
-        [prometheus] Key file {FLUX_NOTIFIER_PROMETHEUS_KEY}
+        [prometheus] Key file {NOTIFIER_PROMETHEUS_KEY}
   -prometheusPort uint
-        [prometheus] Listen port (0 to disable) {FLUX_NOTIFIER_PROMETHEUS_PORT} (default 9090)
+        [prometheus] Listen port (0 to disable) {NOTIFIER_PROMETHEUS_PORT} (default 9090)
   -prometheusReadTimeout string
-        [prometheus] Read Timeout {FLUX_NOTIFIER_PROMETHEUS_READ_TIMEOUT} (default "5s")
+        [prometheus] Read Timeout {NOTIFIER_PROMETHEUS_READ_TIMEOUT} (default "5s")
   -prometheusShutdownTimeout string
-        [prometheus] Shutdown Timeout {FLUX_NOTIFIER_PROMETHEUS_SHUTDOWN_TIMEOUT} (default "5s")
+        [prometheus] Shutdown Timeout {NOTIFIER_PROMETHEUS_SHUTDOWN_TIMEOUT} (default "5s")
   -prometheusWriteTimeout string
-        [prometheus] Write Timeout {FLUX_NOTIFIER_PROMETHEUS_WRITE_TIMEOUT} (default "10s")
+        [prometheus] Write Timeout {NOTIFIER_PROMETHEUS_WRITE_TIMEOUT} (default "10s")
   -readTimeout string
-        [server] Read Timeout {FLUX_NOTIFIER_READ_TIMEOUT} (default "5s")
+        [server] Read Timeout {NOTIFIER_READ_TIMEOUT} (default "5s")
   -shutdownTimeout string
-        [server] Shutdown Timeout {FLUX_NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
+        [server] Shutdown Timeout {NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
   -url string
-        [alcotest] URL to check {FLUX_NOTIFIER_URL}
+        [alcotest] URL to check {NOTIFIER_URL}
   -userAgent string
-        [alcotest] User-Agent for check {FLUX_NOTIFIER_USER_AGENT} (default "Alcotest")
+        [alcotest] User-Agent for check {NOTIFIER_USER_AGENT} (default "Alcotest")
   -writeTimeout string
-        [server] Write Timeout {FLUX_NOTIFIER_WRITE_TIMEOUT} (default "10s")
+        [server] Write Timeout {NOTIFIER_WRITE_TIMEOUT} (default "10s")
 ```

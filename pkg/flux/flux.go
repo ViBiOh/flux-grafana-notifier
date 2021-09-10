@@ -1,4 +1,4 @@
-package grafana
+package flux
 
 import (
 	"context"
@@ -22,9 +22,7 @@ type annotationPayload struct {
 
 // App of package
 type App struct {
-	address  string
-	username string
-	password string
+	req request.Request
 }
 
 // Config of package
@@ -37,18 +35,16 @@ type Config struct {
 // Flags adds flags for configuring package
 func Flags(fs *flag.FlagSet, prefix string) Config {
 	return Config{
-		address:  flags.New(prefix, "grafana", "Address").Default("http://grafana", nil).Label("Address").ToString(fs),
-		username: flags.New(prefix, "grafana", "Username").Default("", nil).Label("Username for auth").ToString(fs),
-		password: flags.New(prefix, "grafana", "Password").Default("", nil).Label("Password for auth").ToString(fs),
+		address:  flags.New(prefix, "grafana", "Address").Default("http://grafana", nil).Label("Grafana Address").ToString(fs),
+		username: flags.New(prefix, "grafana", "Username").Default("", nil).Label("Grafana Basic Auth Username").ToString(fs),
+		password: flags.New(prefix, "grafana", "Password").Default("", nil).Label("Grafana Basic Auth Password").ToString(fs),
 	}
 }
 
 // New creates new App from Config
 func New(config Config) App {
 	return App{
-		address:  fmt.Sprintf("%s/api/annotations", strings.TrimSpace(*config.address)),
-		username: strings.TrimSpace(*config.username),
-		password: strings.TrimSpace(*config.password),
+		req: request.New().Post(strings.TrimSpace(*config.address)).Path("/api/annotations").BasicAuth(strings.TrimSpace(*config.username), *config.password),
 	}
 }
 
@@ -76,12 +72,7 @@ func (a App) send(ctx context.Context, text string, tags ...string) {
 		return
 	}
 
-	req := request.New().Post(a.address)
-	if len(a.username) != 0 {
-		req = req.BasicAuth(a.username, a.password)
-	}
-
-	resp, err := req.JSON(ctx, annotationPayload{
+	resp, err := a.req.JSON(ctx, annotationPayload{
 		Text: text,
 		Tags: tags,
 	})
@@ -91,11 +82,7 @@ func (a App) send(ctx context.Context, text string, tags ...string) {
 		return
 	}
 
-	body, err := request.ReadBodyResponse(resp)
-	if err != nil {
-		logger.Error("%s", err)
-		return
+	if err := request.DiscardBody(resp.Body); err != nil {
+		logger.Error("unable to discard body: %s", err)
 	}
-
-	logger.Info("Grafana annotation succeeded: %s", body)
 }

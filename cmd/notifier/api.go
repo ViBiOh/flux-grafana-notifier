@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
+	"net/http"
 	"os"
+	"strings"
 
-	"github.com/ViBiOh/flux-notifier/pkg/grafana"
 	"github.com/ViBiOh/httputils/v4/pkg/alcotest"
 	"github.com/ViBiOh/httputils/v4/pkg/cors"
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
@@ -15,10 +16,15 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/prometheus"
 	"github.com/ViBiOh/httputils/v4/pkg/recoverer"
 	"github.com/ViBiOh/httputils/v4/pkg/server"
+	"github.com/ViBiOh/notifier/pkg/flux"
+)
+
+const (
+	fluxPath = "/flux"
 )
 
 func main() {
-	fs := flag.NewFlagSet("flux-notifier", flag.ExitOnError)
+	fs := flag.NewFlagSet("notifier", flag.ExitOnError)
 
 	appServerConfig := server.Flags(fs, "")
 	promServerConfig := server.Flags(fs, "prometheus", flags.NewOverride("Port", 9090), flags.NewOverride("IdleTimeout", "10s"), flags.NewOverride("ShutdownTimeout", "5s"))
@@ -30,7 +36,7 @@ func main() {
 	owaspConfig := owasp.Flags(fs, "")
 	corsConfig := cors.Flags(fs, "cors")
 
-	grafanaConfig := grafana.Flags(fs, "grafana")
+	grafanaConfig := flux.Flags(fs, "flux")
 
 	logger.Fatal(fs.Parse(os.Args[1:]))
 
@@ -43,10 +49,15 @@ func main() {
 	prometheusApp := prometheus.New(prometheusConfig)
 	healthApp := health.New(healthConfig)
 
-	grafanaApp := grafana.New(grafanaConfig)
+	fluxHandler := flux.New(grafanaConfig).Handler()
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, fluxPath) {
+			fluxHandler.ServeHTTP(w, r)
+		}
+	})
 
 	go promServer.Start("prometheus", healthApp.End(), prometheusApp.Handler())
-	go appServer.Start("http", healthApp.End(), httputils.Handler(grafanaApp.Handler(), healthApp, recoverer.Middleware, prometheusApp.Middleware, owasp.New(owaspConfig).Middleware, cors.New(corsConfig).Middleware))
+	go appServer.Start("http", healthApp.End(), httputils.Handler(handler, healthApp, recoverer.Middleware, prometheusApp.Middleware, owasp.New(owaspConfig).Middleware, cors.New(corsConfig).Middleware))
 
 	healthApp.WaitForTermination(appServer.Done())
 	server.GracefulWait(appServer.Done(), promServer.Done())

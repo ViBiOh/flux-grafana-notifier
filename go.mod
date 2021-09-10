@@ -1,4 +1,4 @@
-module github.com/ViBiOh/flux-notifier
+module github.com/ViBiOh/notifier
 
 go 1.17
 

@@ -5,8 +5,8 @@ EXPOSE 1080
 
 COPY ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
-HEALTHCHECK --retries=5 CMD [ "/flux-notifier", "-url", "http://localhost:1080/health" ]
-ENTRYPOINT [ "/flux-notifier" ]
+HEALTHCHECK --retries=5 CMD [ "/notifier", "-url", "http://localhost:1080/health" ]
+ENTRYPOINT [ "/notifier" ]
 
 ARG VERSION
 ENV VERSION=${VERSION}
@@ -14,4 +14,4 @@ ENV VERSION=${VERSION}
 ARG TARGETOS
 ARG TARGETARCH
 
-COPY release/flux-notifier_${TARGETOS}_${TARGETARCH} /flux-notifier
+COPY release/notifier_${TARGETOS}_${TARGETARCH} /notifier
