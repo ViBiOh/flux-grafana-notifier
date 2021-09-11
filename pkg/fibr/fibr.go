@@ -62,8 +62,13 @@ func (a App) Handler() http.Handler {
 			}
 		}
 
+		if !a.discordApp.Enabled() {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
 		var e event
-		if err := httpjson.Parse(r, e); err != nil {
+		if err := httpjson.Parse(r, &e); err != nil {
 			httperror.BadRequest(w, err)
 			return
 		}
@@ -74,7 +79,7 @@ func (a App) Handler() http.Handler {
 		}
 
 		switch r.URL.Path {
-		case "/discord":
+		case "/fibr/discord":
 			w.WriteHeader(http.StatusNoContent)
 			if err := a.discordApp.Send(context.Background(), "Someone connected to fibr"); err != nil {
 				logger.Error("unable to send discord: %s", err)

@@ -38,6 +38,11 @@ func New(config Config) App {
 	}
 }
 
+// Enabled checks that requirements are met
+func (a App) Enabled() bool {
+	return !a.webhookReq.IsZero()
+}
+
 // Send discord webhook content
 func (a App) Send(ctx context.Context, content string) error {
 	resp, err := a.webhookReq.JSON(ctx, discordPayload{
@@ -45,7 +50,7 @@ func (a App) Send(ctx context.Context, content string) error {
 	})
 
 	if err != nil {
-		return fmt.Errorf("unabel to send discord webhook: %s", err)
+		return fmt.Errorf("unable to send discord webhook: %s", err)
 	}
 
 	if err = request.DiscardBody(resp.Body); err != nil {

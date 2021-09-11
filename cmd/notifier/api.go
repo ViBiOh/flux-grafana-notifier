@@ -72,7 +72,7 @@ func main() {
 
 	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
 	sshHandler := http.StripPrefix(sshPath, ssh.New(sshConfig, mailerClient).Handler())
-	fibrHandler := http.StripPrefix(fibrPath, fibr.New(fibrConfig, discordApp).Handler())
+	fibrHandler := fibr.New(fibrConfig, discordApp).Handler()
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, fluxPath) {
