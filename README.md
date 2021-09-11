@@ -48,6 +48,10 @@ Usage of notifier:
         [cors] Access-Control-Allow-Origin {NOTIFIER_CORS_ORIGIN} (default "*")
   -csp string
         [owasp] Content-Security-Policy {NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
+  -discordWebhookURL string
+        [discord] Discord Webhook WebhookURL {NOTIFIER_DISCORD_WEBHOOK_URL} (default "WebhookURL")
+  -fibrSecret string
+        [fibr] Webhook Secret {NOTIFIER_FIBR_SECRET}
   -frameOptions string
         [owasp] X-Frame-Options {NOTIFIER_FRAME_OPTIONS} (default "deny")
   -graceDuration string
