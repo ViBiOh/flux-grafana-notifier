@@ -48,16 +48,16 @@ Usage of notifier:
         [cors] Access-Control-Allow-Origin {NOTIFIER_CORS_ORIGIN} (default "*")
   -csp string
         [owasp] Content-Security-Policy {NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
-  -fluxAddress string
-        [flux] Grafana Address {NOTIFIER_FLUX_ADDRESS} (default "http://grafana")
-  -fluxPassword string
-        [flux] Grafana Basic Auth Password {NOTIFIER_FLUX_PASSWORD}
-  -fluxUsername string
-        [flux] Grafana Basic Auth Username {NOTIFIER_FLUX_USERNAME}
   -frameOptions string
         [owasp] X-Frame-Options {NOTIFIER_FRAME_OPTIONS} (default "deny")
   -graceDuration string
         [http] Grace duration when SIGTERM received {NOTIFIER_GRACE_DURATION} (default "30s")
+  -grafanaAddress string
+        [grafana] Grafana Address {NOTIFIER_GRAFANA_ADDRESS} (default "http://grafana")
+  -grafanaPassword string
+        [grafana] Grafana Basic Auth Password {NOTIFIER_GRAFANA_PASSWORD}
+  -grafanaUsername string
+        [grafana] Grafana Basic Auth Username {NOTIFIER_GRAFANA_USERNAME}
   -hsts
         [owasp] Indicate Strict Transport Security {NOTIFIER_HSTS} (default true)
   -idleTimeout string
@@ -74,6 +74,12 @@ Usage of notifier:
         [logger] Key for message in JSON {NOTIFIER_LOGGER_MESSAGE_KEY} (default "message")
   -loggerTimeKey string
         [logger] Key for timestamp in JSON {NOTIFIER_LOGGER_TIME_KEY} (default "time")
+  -mailerName string
+        [mailer] HTTP Username or AMQP Exchange name {NOTIFIER_MAILER_NAME} (default "mailer")
+  -mailerPassword string
+        [mailer] HTTP Pass {NOTIFIER_MAILER_PASSWORD}
+  -mailerURL string
+        [mailer] URL (https?:// or amqps?://) {NOTIFIER_MAILER_URL}
   -okStatus int
         [http] Healthy HTTP Status code {NOTIFIER_OK_STATUS} (default 204)
   -port uint
@@ -102,6 +108,10 @@ Usage of notifier:
         [server] Read Timeout {NOTIFIER_READ_TIMEOUT} (default "5s")
   -shutdownTimeout string
         [server] Shutdown Timeout {NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
+  -sshRecipient string
+        [ssh] SSH Notification recipient {NOTIFIER_SSH_RECIPIENT}
+  -sshSender string
+        [ssh] SSH Notification sender {NOTIFIER_SSH_SENDER}
   -url string
         [alcotest] URL to check {NOTIFIER_URL}
   -userAgent string

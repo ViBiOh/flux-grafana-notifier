@@ -10,17 +10,23 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/cors"
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
 	"github.com/ViBiOh/httputils/v4/pkg/health"
+	"github.com/ViBiOh/httputils/v4/pkg/httperror"
 	"github.com/ViBiOh/httputils/v4/pkg/httputils"
 	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	"github.com/ViBiOh/httputils/v4/pkg/owasp"
 	"github.com/ViBiOh/httputils/v4/pkg/prometheus"
 	"github.com/ViBiOh/httputils/v4/pkg/recoverer"
 	"github.com/ViBiOh/httputils/v4/pkg/server"
+	"github.com/ViBiOh/mailer/pkg/client"
+	mailer "github.com/ViBiOh/mailer/pkg/client"
 	"github.com/ViBiOh/notifier/pkg/flux"
+	"github.com/ViBiOh/notifier/pkg/grafana"
+	"github.com/ViBiOh/notifier/pkg/ssh"
 )
 
 const (
 	fluxPath = "/flux"
+	sshPath  = "/ssh"
 )
 
 func main() {
@@ -36,7 +42,10 @@ func main() {
 	owaspConfig := owasp.Flags(fs, "")
 	corsConfig := cors.Flags(fs, "cors")
 
-	grafanaConfig := flux.Flags(fs, "flux")
+	sshConfig := ssh.Flags(fs, "ssh")
+
+	grafanaConfig := grafana.Flags(fs, "grafana")
+	mailerConfig := mailer.Flags(fs, "mailer")
 
 	logger.Fatal(fs.Parse(os.Args[1:]))
 
@@ -49,11 +58,27 @@ func main() {
 	prometheusApp := prometheus.New(prometheusConfig)
 	healthApp := health.New(healthConfig)
 
-	fluxHandler := flux.New(grafanaConfig).Handler()
+	grafanaApp := grafana.New(grafanaConfig)
+
+	mailerClient, err := client.New(mailerConfig)
+	logger.Fatal(err)
+	defer mailerClient.Close()
+
+	sshHandler := http.StripPrefix(sshPath, ssh.New(sshConfig, mailerClient).Handler())
+	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
+
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, fluxPath) {
 			fluxHandler.ServeHTTP(w, r)
+			return
 		}
+
+		if strings.HasPrefix(r.URL.Path, sshPath) {
+			sshHandler.ServeHTTP(w, r)
+			return
+		}
+
+		httperror.NotFound(w)
 	})
 
 	go promServer.Start("prometheus", healthApp.End(), prometheusApp.Handler())
