@@ -1,0 +1,26 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: notifier-auth
+  namespace: default
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+spec:
+  encryptedData:
+    users: AgA1mUvdwgIo3m/sjBaxNo4/bH6iZiKoQHblW8A85BOggsJZiMwTHRt80dwpPcMw0WMrtaazY/zmatJXKYpLYeXHFvkfDpnC+snSvPDj5RBZWShBf8Lvrlu42t1hvzrH74paOOmP8YF0WKJdLBImRH6tkM7o3KKsJrV9sgYHRWCum+bHG2wYi6cM/RxQ6I7ogA7CGLo+SnmjeyqHmly+MOJjBEbVEgKuw5wgg9fhmnxSBgIlmM0sESttaiQ2QRUTwtVr8vl98CcNmkw/6zM1b6HQco8y5FUpx5JHMQMfDYQ/u9UQ54Zgkzs4Qa6nUOovgJxYsH5BziuuYitzOKWg1qADRblWon5vmTDe1tPQUYscEXqpAvmhC5vCo9iYT2Vxa7L+ykUeuSwVIXNBGsuk8D3Eh7vzY2OdAeQQABlsieMyXW21yrISo0YP+4jw6fRhkOPpI8/7Sy4e7LerAe7hJy+k13OccRtAH9fRCzHqNFEYdX8FLoJ5vfaVxoF9CTw6RF7p0pe6JgoIhPgApY2AGc3vzF2ACtTF25jlmWmq6DF93toe2Y4b/dle2/xuGqC5ju5du3l3s1hqw4HDDuNKFpHfzn3FvOFW7DUi5QqSlYhmyB4rr64qOnacYZKzdIuHYKOUfns3FkjmZRwjTObVEUSifYlty82xm6GE8Fv7MzT7SeoG2mHjXifQqOI1/sj6Ss7IYI5vOc250ZTgdSX5CufC7qQ3eXCkArij4TGnQPizMiHK95qoFVJXotk0mbTZS+av28sEcrT7xY1Jqe6szBG07jYr
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: notifier-auth
+  namespace: default
+  labels:
+    app.kubernetes.io/name: notifier
+    app.kubernetes.io/instance: notifier
+    app.kubernetes.io/managed-by: kubectl
+spec:
+  basicAuth:
+    secret: notifier-auth
+    removeHeader: true
