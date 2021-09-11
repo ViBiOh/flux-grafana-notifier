@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 	"flag"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
 	"github.com/ViBiOh/httputils/v4/pkg/httperror"
@@ -81,7 +83,7 @@ func (a App) Handler() http.Handler {
 		switch r.URL.Path {
 		case "/fibr/discord":
 			w.WriteHeader(http.StatusNoContent)
-			if err := a.discordApp.Send(context.Background(), "Someone connected to fibr"); err != nil {
+			if err := a.discordApp.Send(context.Background(), fmt.Sprintf("Someone connected to fibr at %s", time.Now())); err != nil {
 				logger.Error("unable to send discord: %s", err)
 			}
 		default:
