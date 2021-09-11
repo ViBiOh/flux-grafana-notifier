@@ -14,11 +14,16 @@ import (
 	model "github.com/ViBiOh/mailer/pkg/model"
 )
 
+type sshPayload struct {
+	Env  map[string]string `json:"env"`
+	Host string            `json:"host"`
+}
+
 // App of package
 type App struct {
-	mailerApp mailer.App
 	sender    string
 	recipient string
+	mailerApp mailer.App
 }
 
 // Config of package
@@ -58,10 +63,29 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
+		host := r.URL.Query().Get("host")
+		env := make(map[string]string)
+		for _, variable := range strings.Split(string(content), "\n") {
+			parts := strings.SplitN(variable, "=", 2)
+			if len(parts) != 2 {
+				continue
+			}
+
+			env[parts[0]] = parts[1]
+		}
+
+		if env["PAM_TYPE"] != "open_session" {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
 		switch r.URL.Path {
 		case "/mail":
 			w.WriteHeader(http.StatusOK)
-			if err := a.mailerApp.Send(context.Background(), model.NewMailRequest().From(a.sender).As("SSH Monitoring").To(a.recipient).Template("ssh").Data(content)); err != nil {
+			if err := a.mailerApp.Send(context.Background(), model.NewMailRequest().From(a.sender).As("SSH Monitoring").To(a.recipient).Template("ssh").Data(sshPayload{
+				Host: host,
+				Env:  env,
+			})); err != nil {
 				logger.Error("unable to send ssh mail: %s", err)
 			}
 		default:
