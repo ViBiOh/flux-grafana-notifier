@@ -82,7 +82,7 @@ func (a App) Handler() http.Handler {
 		switch r.URL.Path {
 		case "/mail":
 			w.WriteHeader(http.StatusOK)
-			if err := a.mailerApp.Send(context.Background(), model.NewMailRequest().From(a.sender).As("SSH Monitoring").To(a.recipient).Template("ssh").Data(sshPayload{
+			if err := a.mailerApp.Send(context.Background(), model.NewMailRequest().From(a.sender).As("SSH Monitoring").WithSubject("SSH Login").To(a.recipient).Template("ssh").Data(sshPayload{
 				Host: host,
 				Env:  env,
 			})); err != nil {
