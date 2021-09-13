@@ -83,7 +83,7 @@ func (a App) Handler() http.Handler {
 		switch r.URL.Path {
 		case "/fibr/discord":
 			w.WriteHeader(http.StatusNoContent)
-			if err := a.discordApp.Send(context.Background(), fmt.Sprintf("Someone connected to fibr at %s", time.Now())); err != nil {
+			if err := a.discordApp.Send(context.Background(), fmt.Sprintf("Someone connected to fibr at %s", time.Now().Format(time.RFC3339))); err != nil {
 				logger.Error("unable to send discord: %s", err)
 			}
 		default:
