@@ -3,8 +3,8 @@ module github.com/ViBiOh/notifier
 go 1.17
 
 require (
-	github.com/ViBiOh/httputils/v4 v4.24.0
-	github.com/ViBiOh/mailer v1.25.0
+	github.com/ViBiOh/httputils/v4 v4.24.1
+	github.com/ViBiOh/mailer v1.26.0
 	github.com/fluxcd/pkg/recorder v0.0.6
 	github.com/stretchr/testify v1.7.0 // indirect
 )
