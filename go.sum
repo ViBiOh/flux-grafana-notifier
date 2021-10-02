@@ -5,8 +5,8 @@ github.com/NYTimes/gziphandler v0.0.0-20170623195520-56545f4a5d46/go.mod h1:3wb0
 github.com/PuerkitoBio/purell v1.0.0/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20160726150825-5bd2802263f2/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
 github.com/ViBiOh/httputils/v4 v4.24.1/go.mod h1:y4waNFK8VE1B96OFIWQfBZKSCKUQkCSsz2T5gXcUGbw=
-github.com/ViBiOh/httputils/v4 v4.25.1 h1:5+pczIIuAy2n2kNrTeT8D08SzZ1P1ExOj75GDlNE8k0=
-github.com/ViBiOh/httputils/v4 v4.25.1/go.mod h1:y4waNFK8VE1B96OFIWQfBZKSCKUQkCSsz2T5gXcUGbw=
+github.com/ViBiOh/httputils/v4 v4.25.2 h1:M/cSkIl/V/jaklG49oue/uY3cYO9DKqe9PbFxvSckEQ=
+github.com/ViBiOh/httputils/v4 v4.25.2/go.mod h1:y4waNFK8VE1B96OFIWQfBZKSCKUQkCSsz2T5gXcUGbw=
 github.com/ViBiOh/mailer v1.26.0 h1:ivYwwdEivPfyU5c0v20Cv8qoXoAN+eeqKY/+A9cMN+s=
 github.com/ViBiOh/mailer v1.26.0/go.mod h1:Lh4eUSnOoh/rRj9atPEpPhdbCufQgNL3A+463N8KsMs=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
