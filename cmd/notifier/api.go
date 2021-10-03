@@ -66,7 +66,7 @@ func main() {
 	grafanaApp := grafana.New(grafanaConfig)
 	discordApp := discord.New(discordConfig)
 
-	mailerClient, err := client.New(mailerConfig)
+	mailerClient, err := client.New(mailerConfig, prometheusApp.Registerer())
 	logger.Fatal(err)
 	defer mailerClient.Close()
 
