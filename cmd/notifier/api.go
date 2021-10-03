@@ -19,6 +19,7 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/server"
 	"github.com/ViBiOh/mailer/pkg/client"
 	mailer "github.com/ViBiOh/mailer/pkg/client"
+	"github.com/ViBiOh/notifier/pkg/alertmanager"
 	"github.com/ViBiOh/notifier/pkg/discord"
 	"github.com/ViBiOh/notifier/pkg/fibr"
 	"github.com/ViBiOh/notifier/pkg/flux"
@@ -27,9 +28,10 @@ import (
 )
 
 const (
-	fibrPath = "/fibr"
-	fluxPath = "/flux"
-	sshPath  = "/ssh"
+	alertmanagerPath = "/alertmanager"
+	fibrPath         = "/fibr"
+	fluxPath         = "/flux"
+	sshPath          = "/ssh"
 )
 
 func main() {
@@ -48,9 +50,10 @@ func main() {
 	sshConfig := ssh.Flags(fs, "ssh")
 	fibrConfig := fibr.Flags(fs, "fibr")
 
+	alertmanagerConfig := alertmanager.Flags(fs, "alertmanager")
+	discordConfig := discord.Flags(fs, "discord")
 	grafanaConfig := grafana.Flags(fs, "grafana")
 	mailerConfig := mailer.Flags(fs, "mailer")
-	discordConfig := discord.Flags(fs, "discord")
 
 	logger.Fatal(fs.Parse(os.Args[1:]))
 
@@ -70,11 +73,22 @@ func main() {
 	logger.Fatal(err)
 	defer mailerClient.Close()
 
+	alertmanagerApp := http.StripPrefix(alertmanagerPath, alertmanager.New(alertmanagerConfig, mailerClient).Handler())
+	fibrHandler := fibr.New(fibrConfig, discordApp).Handler()
 	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
 	sshHandler := http.StripPrefix(sshPath, ssh.New(sshConfig, mailerClient).Handler())
-	fibrHandler := fibr.New(fibrConfig, discordApp).Handler()
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, alertmanagerPath) {
+			alertmanagerApp.ServeHTTP(w, r)
+			return
+		}
+
+		if strings.HasPrefix(r.URL.Path, fibrPath) {
+			fibrHandler.ServeHTTP(w, r)
+			return
+		}
+
 		if strings.HasPrefix(r.URL.Path, fluxPath) {
 			fluxHandler.ServeHTTP(w, r)
 			return
@@ -82,11 +96,6 @@ func main() {
 
 		if strings.HasPrefix(r.URL.Path, sshPath) {
 			sshHandler.ServeHTTP(w, r)
-			return
-		}
-
-		if strings.HasPrefix(r.URL.Path, fibrPath) {
-			fibrHandler.ServeHTTP(w, r)
 			return
 		}
 

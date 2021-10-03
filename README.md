@@ -34,6 +34,10 @@ Be careful when using the CLI values, if someone list the processes on the syste
 Usage of notifier:
   -address string
         [server] Listen address {NOTIFIER_ADDRESS}
+  -alertmanagerRecipient string
+        [alertmanager] Alertmanager recipient {NOTIFIER_ALERTMANAGER_RECIPIENT}
+  -alertmanagerSender string
+        [alertmanager] Alertmanager sender {NOTIFIER_ALERTMANAGER_SENDER}
   -cert string
         [server] Certificate file {NOTIFIER_CERT}
   -corsCredentials
