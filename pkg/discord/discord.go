@@ -48,7 +48,6 @@ func (a App) Send(ctx context.Context, content string) error {
 	resp, err := a.webhookReq.JSON(ctx, discordPayload{
 		Content: content,
 	})
-
 	if err != nil {
 		return fmt.Errorf("unable to send discord webhook: %s", err)
 	}

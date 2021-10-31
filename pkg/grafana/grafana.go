@@ -49,7 +49,6 @@ func (a App) Send(ctx context.Context, text string, tags ...string) {
 		Text: text,
 		Tags: tags,
 	})
-
 	if err != nil {
 		logger.Error("%s", err)
 		return
