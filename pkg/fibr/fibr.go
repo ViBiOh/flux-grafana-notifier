@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
@@ -17,7 +18,8 @@ import (
 )
 
 type event struct {
-	Type string `json:"type"`
+	Metadata map[string]string `json:"metadata"`
+	Type     string            `json:"type"`
 }
 
 // App of package
@@ -80,10 +82,23 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
+		content := strings.Builder{}
+		content.WriteString(fmt.Sprintf("Someone connected to fibr at %s", time.Now().Format(time.RFC3339)))
+
+		if len(e.Metadata) > 0 {
+			content.WriteString("```\n")
+
+			for key, value := range e.Metadata {
+				content.WriteString(fmt.Sprintf("%s: %s\n", key, value))
+			}
+
+			content.WriteString("```")
+		}
+
 		switch r.URL.Path {
 		case "/fibr/discord":
 			w.WriteHeader(http.StatusNoContent)
-			if err := a.discordApp.Send(context.Background(), fmt.Sprintf("Someone connected to fibr at %s", time.Now().Format(time.RFC3339))); err != nil {
+			if err := a.discordApp.Send(context.Background(), content.String()); err != nil {
 				logger.Error("unable to send discord: %s", err)
 			}
 		default:

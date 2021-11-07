@@ -16,9 +16,23 @@ import (
 )
 
 type alert struct {
-	Receiver string `json:"receiver"`
-	Status   string `json:"status"`
-	Alerts   []struct {
+	CommonLabels struct {
+		Alertname string `json:"alertname"`
+		Service   string `json:"service"`
+		Severity  string `json:"severity"`
+	} `json:"commonLabels"`
+	Receiver    string `json:"receiver"`
+	Status      string `json:"status"`
+	GroupKey    string `json:"groupKey"`
+	GroupLabels struct {
+		Alertname string `json:"alertname"`
+	} `json:"groupLabels"`
+	CommonAnnotations struct {
+		Summary string `json:"summary"`
+	} `json:"commonAnnotations"`
+	ExternalURL string `json:"externalURL"`
+	Version     string `json:"version"`
+	Alerts      []struct {
 		Status string `json:"status"`
 		Labels struct {
 			Alertname string `json:"alertname"`
@@ -34,20 +48,6 @@ type alert struct {
 		GeneratorURL string    `json:"generatorURL"`
 		Fingerprint  string    `json:"fingerprint"`
 	} `json:"alerts"`
-	GroupLabels struct {
-		Alertname string `json:"alertname"`
-	} `json:"groupLabels"`
-	CommonLabels struct {
-		Alertname string `json:"alertname"`
-		Service   string `json:"service"`
-		Severity  string `json:"severity"`
-	} `json:"commonLabels"`
-	CommonAnnotations struct {
-		Summary string `json:"summary"`
-	} `json:"commonAnnotations"`
-	ExternalURL string `json:"externalURL"`
-	Version     string `json:"version"`
-	GroupKey    string `json:"groupKey"`
 }
 
 // App of package
