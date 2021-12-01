@@ -4,7 +4,9 @@ import (
 	"context"
 	"flag"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
 	"github.com/ViBiOh/httputils/v4/pkg/httperror"
@@ -15,8 +17,9 @@ import (
 )
 
 type sshPayload struct {
-	Env  map[string]string `json:"env"`
-	Host string            `json:"host"`
+	Timestamp time.Time         `json:"ts"`
+	Env       map[string]string `json:"env"`
+	Host      string            `json:"host"`
 }
 
 // App of package
@@ -63,7 +66,6 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
-		host := r.URL.Query().Get("host")
 		env := make(map[string]string)
 		for _, variable := range strings.Split(string(content), "\n") {
 			parts := strings.SplitN(variable, "=", 2)
@@ -72,6 +74,11 @@ func (a App) Handler() http.Handler {
 			}
 
 			env[parts[0]] = parts[1]
+		}
+
+		var timestamp time.Time
+		if ts, err := strconv.ParseInt(r.URL.Query().Get("ts"), 10, 64); err == nil {
+			timestamp = time.Unix(ts, 0)
 		}
 
 		if env["PAM_TYPE"] != "open_session" {
@@ -83,8 +90,9 @@ func (a App) Handler() http.Handler {
 		case "/mail":
 			w.WriteHeader(http.StatusOK)
 			if err := a.mailerApp.Send(context.Background(), model.NewMailRequest().From(a.sender).As("SSH Monitoring").WithSubject("SSH Login").To(a.recipient).Template("ssh").Data(sshPayload{
-				Host: host,
-				Env:  env,
+				Env:       env,
+				Host:      r.URL.Query().Get("host"),
+				Timestamp: timestamp,
 			})); err != nil {
 				logger.Error("unable to send ssh mail: %s", err)
 			}
