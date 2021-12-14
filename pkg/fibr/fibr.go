@@ -6,9 +6,11 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"path"
 	"strings"
 	"time"
 
+	"github.com/ViBiOh/fibr/pkg/provider"
 	"github.com/ViBiOh/httputils/v4/pkg/flags"
 	"github.com/ViBiOh/httputils/v4/pkg/httperror"
 	"github.com/ViBiOh/httputils/v4/pkg/httpjson"
@@ -16,11 +18,6 @@ import (
 	"github.com/ViBiOh/httputils/v4/pkg/request"
 	"github.com/ViBiOh/notifier/pkg/discord"
 )
-
-type event struct {
-	Metadata map[string]string `json:"metadata"`
-	Type     string            `json:"type"`
-}
 
 // App of package
 type App struct {
@@ -71,38 +68,71 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
-		var e event
+		var e provider.Event
 		if err := httpjson.Parse(r, &e); err != nil {
 			httperror.BadRequest(w, err)
 			return
 		}
 
-		if e.Type != "access" {
+		var content string
+		switch e.Type {
+		case provider.AccessEvent:
+			content = handleAccess(e)
+		case provider.UploadEvent:
+			content = handleUpload(e)
+		default:
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 
-		content := strings.Builder{}
-		content.WriteString(fmt.Sprintf("Someone connected to fibr at %s", time.Now().Format(time.RFC3339)))
-
-		if len(e.Metadata) > 0 {
-			content.WriteString("```\n")
-
-			for key, value := range e.Metadata {
-				content.WriteString(fmt.Sprintf("%s: %s\n", key, value))
-			}
-
-			content.WriteString("```")
+		if len(content) == 0 {
+			w.WriteHeader(http.StatusNoContent)
+			return
 		}
 
 		switch r.URL.Path {
 		case "/fibr/discord":
 			w.WriteHeader(http.StatusNoContent)
-			if err := a.discordApp.Send(context.Background(), content.String()); err != nil {
+			if err := a.discordApp.Send(context.Background(), content); err != nil {
+				logger.Error("unable to send discord: %s", err)
+			}
+		case "/fibr/cyclisme":
+			w.WriteHeader(http.StatusNoContent)
+			if err := a.discordApp.SendCyclisme(context.Background(), content); err != nil {
 				logger.Error("unable to send discord: %s", err)
 			}
 		default:
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	})
+}
+
+func handleAccess(e provider.Event) string {
+	content := strings.Builder{}
+	content.WriteString(fmt.Sprintf("Someone connected to fibr at %s", time.Now().Format(time.RFC3339)))
+
+	if len(e.Metadata) > 0 {
+		content.WriteString("```\n")
+
+		for key, value := range e.Metadata {
+			content.WriteString(fmt.Sprintf("%s: %s\n", key, value))
+		}
+
+		content.WriteString("```")
+	}
+
+	return content.String()
+}
+
+func handleUpload(e provider.Event) string {
+	if e.Item.IsDir {
+		return ""
+	}
+
+	content := strings.Builder{}
+
+	content.WriteString(fmt.Sprintf("Someone uploaded a file to fibr at %s", time.Now().Format(time.RFC3339)))
+	content.WriteString(fmt.Sprintf("\nFolder `%s`", path.Dir(e.Item.Pathname)))
+
+	return content.String()
 }
