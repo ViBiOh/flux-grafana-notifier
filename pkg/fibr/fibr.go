@@ -68,20 +68,9 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
-		var e provider.Event
-		if err := httpjson.Parse(r, &e); err != nil {
+		content, err := getContent(r)
+		if err != nil {
 			httperror.BadRequest(w, err)
-			return
-		}
-
-		var content string
-		switch e.Type {
-		case provider.AccessEvent:
-			content = handleAccess(e)
-		case provider.UploadEvent:
-			content = handleUpload(e)
-		default:
-			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 
@@ -107,9 +96,28 @@ func (a App) Handler() http.Handler {
 	})
 }
 
+func getContent(r *http.Request) (string, error) {
+	var e provider.Event
+	if err := httpjson.Parse(r, &e); err != nil {
+		return "", fmt.Errorf("unable to parse payload: %s", err)
+	}
+
+	var content string
+	switch e.Type {
+	case provider.AccessEvent:
+		content = handleAccess(e)
+	case provider.UploadEvent:
+		content = handleFileEvent(e, "uploaded to")
+	case provider.DeleteEvent:
+		content = handleFileEvent(e, "deleted from")
+	}
+
+	return content, nil
+}
+
 func handleAccess(e provider.Event) string {
 	content := strings.Builder{}
-	content.WriteString(fmt.Sprintf("Someone connected to fibr at %s", time.Now().Format(time.RFC3339)))
+	content.WriteString(fmt.Sprintf("\nSomeone connected to fibr at %s", time.Now().Format(time.RFC3339)))
 
 	if len(e.Metadata) > 0 {
 		content.WriteString("```\n")
@@ -124,15 +132,12 @@ func handleAccess(e provider.Event) string {
 	return content.String()
 }
 
-func handleUpload(e provider.Event) string {
-	if e.Item.IsDir {
-		return ""
-	}
-
+func handleFileEvent(e provider.Event, name string) string {
 	content := strings.Builder{}
 
-	content.WriteString(fmt.Sprintf("Someone uploaded a file to fibr at %s", time.Now().Format(time.RFC3339)))
-	content.WriteString(fmt.Sprintf("\nFolder `%s`", path.Dir(e.Item.Pathname)))
+	content.WriteString(fmt.Sprintf("\nSomeone %s fibr at %s", name, time.Now().Format(time.RFC3339)))
+	content.WriteString(fmt.Sprintf("\nFolder : `%s`", path.Dir(e.Item.Pathname)))
+	content.WriteString(fmt.Sprintf("\nName   : `%s`", e.Item.Name))
 
 	return content.String()
 }

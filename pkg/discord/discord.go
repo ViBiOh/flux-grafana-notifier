@@ -65,7 +65,7 @@ func (a App) Send(ctx context.Context, content string) error {
 
 // SendCyclisme messae to cyclisme discord webhook content
 func (a App) SendCyclisme(ctx context.Context, content string) error {
-	resp, err := a.webhookReq.JSON(ctx, discordPayload{
+	resp, err := a.cyclismeReq.JSON(ctx, discordPayload{
 		Content: content,
 	})
 	if err != nil {
