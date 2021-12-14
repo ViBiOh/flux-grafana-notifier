@@ -135,9 +135,9 @@ func handleAccess(e provider.Event) string {
 func handleFileEvent(e provider.Event, name string) string {
 	content := strings.Builder{}
 
-	content.WriteString(fmt.Sprintf("\nSomeone %s fibr at %s", name, time.Now().Format(time.RFC3339)))
-	content.WriteString(fmt.Sprintf("\nFolder : `%s`", path.Dir(e.Item.Pathname)))
-	content.WriteString(fmt.Sprintf("\nName   : `%s`", e.Item.Name))
+	content.WriteString(fmt.Sprintf("\n💾 Someone %s fibr at %s", name, time.Now().Format(time.RFC3339)))
+	content.WriteString(fmt.Sprintf("\n🗂 Folder `%s`", path.Dir(e.Item.Pathname)))
+	content.WriteString(fmt.Sprintf("\n📸 Name `%s`", e.Item.Name))
 
 	return content.String()
 }
