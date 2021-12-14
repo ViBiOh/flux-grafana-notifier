@@ -54,6 +54,8 @@ Usage of notifier:
         [owasp] Content-Security-Policy {NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
   -fibrSecret string
         [fibr] Webhook Secret {NOTIFIER_FIBR_SECRET}
+  -fibrURL string
+        [fibr] Fibr URL {NOTIFIER_FIBR_URL} (default "https://fibr.vibioh.fr")
   -frameOptions string
         [owasp] X-Frame-Options {NOTIFIER_FRAME_OPTIONS} (default "deny")
   -graceDuration string

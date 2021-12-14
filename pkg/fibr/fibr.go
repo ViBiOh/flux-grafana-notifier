@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
-	"path"
 	"strings"
 	"time"
 
@@ -22,17 +21,20 @@ import (
 // App of package
 type App struct {
 	secret []byte
+	url    string
 }
 
 // Config of package
 type Config struct {
 	secret *string
+	url    *string
 }
 
 // Flags adds flags for configuring package
 func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config {
 	return Config{
 		secret: flags.New(prefix, "fibr", "Secret").Default("", overrides).Label("Webhook Secret").ToString(fs),
+		url:    flags.New(prefix, "fibr", "URL").Default("https://fibr.vibioh.fr", overrides).Label("Fibr URL").ToString(fs),
 	}
 }
 
@@ -40,6 +42,7 @@ func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config 
 func New(config Config) App {
 	return App{
 		secret: []byte(*config.secret),
+		url:    strings.TrimSpace(*config.url),
 	}
 }
 
@@ -66,7 +69,7 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
-		content, err := getContent(r)
+		content, err := a.getContent(r)
 		if err != nil {
 			httperror.BadRequest(w, err)
 			return
@@ -84,7 +87,7 @@ func (a App) Handler() http.Handler {
 	})
 }
 
-func getContent(r *http.Request) (string, error) {
+func (a App) getContent(r *http.Request) (string, error) {
 	var e provider.Event
 	if err := httpjson.Parse(r, &e); err != nil {
 		return "", fmt.Errorf("unable to parse payload: %s", err)
@@ -95,9 +98,9 @@ func getContent(r *http.Request) (string, error) {
 	case provider.AccessEvent:
 		content = handleAccess(e)
 	case provider.UploadEvent:
-		content = handleFileEvent(e, "uploaded to")
+		content = a.handleFileEvent(e, "uploaded to")
 	case provider.DeleteEvent:
-		content = handleFileEvent(e, "deleted from")
+		content = a.handleFileEvent(e, "deleted from")
 	}
 
 	return content, nil
@@ -105,7 +108,7 @@ func getContent(r *http.Request) (string, error) {
 
 func handleAccess(e provider.Event) string {
 	content := strings.Builder{}
-	content.WriteString(fmt.Sprintf("\n💻 Someone connected to fibr at %s", time.Now().Format(time.RFC3339)))
+	content.WriteString(fmt.Sprintf("\n💻 Someone connected to fibr at %s", e.Time.Format(time.RFC3339)))
 
 	if len(e.Metadata) > 0 {
 		content.WriteString("```\n")
@@ -120,12 +123,6 @@ func handleAccess(e provider.Event) string {
 	return content.String()
 }
 
-func handleFileEvent(e provider.Event, name string) string {
-	content := strings.Builder{}
-
-	content.WriteString(fmt.Sprintf("\n💾 Someone %s fibr at %s", name, time.Now().Format(time.RFC3339)))
-	content.WriteString(fmt.Sprintf("\n🗂 Folder `%s`", path.Dir(e.Item.Pathname)))
-	content.WriteString(fmt.Sprintf("\n📸 Name `%s`", e.Item.Name))
-
-	return content.String()
+func (a App) handleFileEvent(e provider.Event, name string) string {
+	return fmt.Sprintf("\n💾 Someone %s fibr at %s: %s%s", name, e.Time.Format(time.RFC3339), a.url, e.URL)
 }
