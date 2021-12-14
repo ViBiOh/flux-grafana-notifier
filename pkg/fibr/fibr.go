@@ -21,8 +21,7 @@ import (
 
 // App of package
 type App struct {
-	discordApp discord.App
-	secret     []byte
+	secret []byte
 }
 
 // Config of package
@@ -38,10 +37,9 @@ func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config 
 }
 
 // New creates new App from Config
-func New(config Config, discordApp discord.App) App {
+func New(config Config) App {
 	return App{
-		discordApp: discordApp,
-		secret:     []byte(*config.secret),
+		secret: []byte(*config.secret),
 	}
 }
 
@@ -63,8 +61,8 @@ func (a App) Handler() http.Handler {
 			}
 		}
 
-		if !a.discordApp.Enabled() {
-			w.WriteHeader(http.StatusNoContent)
+		webhookURL := r.URL.Query().Get("discord")
+		if len(webhookURL) == 0 {
 			return
 		}
 
@@ -74,24 +72,14 @@ func (a App) Handler() http.Handler {
 			return
 		}
 
+		w.WriteHeader(http.StatusNoContent)
+
 		if len(content) == 0 {
-			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 
-		switch r.URL.Path {
-		case "/fibr/discord":
-			w.WriteHeader(http.StatusNoContent)
-			if err := a.discordApp.Send(context.Background(), content); err != nil {
-				logger.Error("unable to send discord: %s", err)
-			}
-		case "/fibr/cyclisme":
-			w.WriteHeader(http.StatusNoContent)
-			if err := a.discordApp.SendCyclisme(context.Background(), content); err != nil {
-				logger.Error("unable to send discord: %s", err)
-			}
-		default:
-			w.WriteHeader(http.StatusBadRequest)
+		if err := discord.Send(context.Background(), webhookURL, content); err != nil {
+			logger.Error("unable to send discord: %s", err)
 		}
 	})
 }
@@ -117,7 +105,7 @@ func getContent(r *http.Request) (string, error) {
 
 func handleAccess(e provider.Event) string {
 	content := strings.Builder{}
-	content.WriteString(fmt.Sprintf("\nSomeone connected to fibr at %s", time.Now().Format(time.RFC3339)))
+	content.WriteString(fmt.Sprintf("\n💻 Someone connected to fibr at %s", time.Now().Format(time.RFC3339)))
 
 	if len(e.Metadata) > 0 {
 		content.WriteString("```\n")

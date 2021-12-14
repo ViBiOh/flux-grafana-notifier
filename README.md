@@ -52,10 +52,6 @@ Usage of notifier:
         [cors] Access-Control-Allow-Origin {NOTIFIER_CORS_ORIGIN} (default "*")
   -csp string
         [owasp] Content-Security-Policy {NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
-  -discordCyclismeURL string
-        [discord] Cyclisme Discord WebhookURL {NOTIFIER_DISCORD_CYCLISME_URL} (default "CyclismeURL")
-  -discordWebhookURL string
-        [discord] Discord WebhookURL {NOTIFIER_DISCORD_WEBHOOK_URL} (default "WebhookURL")
   -fibrSecret string
         [fibr] Webhook Secret {NOTIFIER_FIBR_SECRET}
   -frameOptions string

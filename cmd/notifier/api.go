@@ -20,7 +20,6 @@ import (
 	"github.com/ViBiOh/mailer/pkg/client"
 	mailer "github.com/ViBiOh/mailer/pkg/client"
 	"github.com/ViBiOh/notifier/pkg/alertmanager"
-	"github.com/ViBiOh/notifier/pkg/discord"
 	"github.com/ViBiOh/notifier/pkg/fibr"
 	"github.com/ViBiOh/notifier/pkg/flux"
 	"github.com/ViBiOh/notifier/pkg/grafana"
@@ -51,7 +50,6 @@ func main() {
 	fibrConfig := fibr.Flags(fs, "fibr")
 
 	alertmanagerConfig := alertmanager.Flags(fs, "alertmanager")
-	discordConfig := discord.Flags(fs, "discord")
 	grafanaConfig := grafana.Flags(fs, "grafana")
 	mailerConfig := mailer.Flags(fs, "mailer")
 
@@ -67,14 +65,13 @@ func main() {
 	healthApp := health.New(healthConfig)
 
 	grafanaApp := grafana.New(grafanaConfig)
-	discordApp := discord.New(discordConfig)
 
 	mailerClient, err := client.New(mailerConfig, prometheusApp.Registerer())
 	logger.Fatal(err)
 	defer mailerClient.Close()
 
 	alertmanagerApp := http.StripPrefix(alertmanagerPath, alertmanager.New(alertmanagerConfig, mailerClient).Handler())
-	fibrHandler := fibr.New(fibrConfig, discordApp).Handler()
+	fibrHandler := fibr.New(fibrConfig).Handler()
 	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
 	sshHandler := http.StripPrefix(sshPath, ssh.New(sshConfig, mailerClient).Handler())
 
