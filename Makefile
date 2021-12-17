@@ -81,4 +81,4 @@ build:
 ## run: Locally run the application, e.g. node index.js, python -m myapp, go run myapp etc ...
 .PHONY: run
 run:
-	$(MAIN_RUNNER) -fibrSecret secret
+	$(MAIN_RUNNER)

@@ -27,7 +27,6 @@ import (
 
 const (
 	alertmanagerPath = "/alertmanager"
-	fibrPath         = "/fibr"
 	fluxPath         = "/flux"
 	sshPath          = "/ssh"
 )
