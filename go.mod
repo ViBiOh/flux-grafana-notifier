@@ -3,17 +3,13 @@ module github.com/ViBiOh/notifier
 go 1.17
 
 require (
-	github.com/ViBiOh/httputils/v4 v4.31.2
+	github.com/ViBiOh/httputils/v4 v4.32.0
 	github.com/ViBiOh/mailer v1.27.2
 	github.com/fluxcd/pkg/recorder v0.0.6
 	github.com/stretchr/testify v1.7.0 // indirect
 )
 
-require github.com/ViBiOh/fibr v0.11.0
-
 require (
-	github.com/ViBiOh/auth/v2 v2.11.26 // indirect
-	github.com/ViBiOh/exas v0.2.4 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
@@ -30,8 +26,6 @@ require (
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
-	github.com/tdewolff/minify/v2 v2.9.22 // indirect
-	github.com/tdewolff/parse/v2 v2.5.22 // indirect
 	golang.org/x/crypto v0.0.0-20211209193657-4570a0811e8b // indirect
 	golang.org/x/net v0.0.0-20211203184738-4852103109b8 // indirect
 	golang.org/x/sys v0.0.0-20211204120058-94396e421777 // indirect

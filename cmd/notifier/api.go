@@ -20,7 +20,6 @@ import (
 	"github.com/ViBiOh/mailer/pkg/client"
 	mailer "github.com/ViBiOh/mailer/pkg/client"
 	"github.com/ViBiOh/notifier/pkg/alertmanager"
-	"github.com/ViBiOh/notifier/pkg/fibr"
 	"github.com/ViBiOh/notifier/pkg/flux"
 	"github.com/ViBiOh/notifier/pkg/grafana"
 	"github.com/ViBiOh/notifier/pkg/ssh"
@@ -47,7 +46,6 @@ func main() {
 	corsConfig := cors.Flags(fs, "cors")
 
 	sshConfig := ssh.Flags(fs, "ssh")
-	fibrConfig := fibr.Flags(fs, "fibr")
 
 	alertmanagerConfig := alertmanager.Flags(fs, "alertmanager")
 	grafanaConfig := grafana.Flags(fs, "grafana")
@@ -71,18 +69,12 @@ func main() {
 	defer mailerClient.Close()
 
 	alertmanagerApp := http.StripPrefix(alertmanagerPath, alertmanager.New(alertmanagerConfig, mailerClient).Handler())
-	fibrHandler := fibr.New(fibrConfig).Handler()
 	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
 	sshHandler := http.StripPrefix(sshPath, ssh.New(sshConfig, mailerClient).Handler())
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, alertmanagerPath) {
 			alertmanagerApp.ServeHTTP(w, r)
-			return
-		}
-
-		if strings.HasPrefix(r.URL.Path, fibrPath) {
-			fibrHandler.ServeHTTP(w, r)
 			return
 		}
 
