@@ -13,7 +13,7 @@ type discordPayload struct {
 
 // Send message to discord webhook
 func Send(ctx context.Context, url, content string) error {
-	resp, err := request.New().Post(url).JSON(ctx, discordPayload{
+	resp, err := request.Post(url).JSON(ctx, discordPayload{
 		Content: content,
 	})
 	if err != nil {

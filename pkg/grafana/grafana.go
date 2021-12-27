@@ -39,7 +39,7 @@ func Flags(fs *flag.FlagSet, prefix string) Config {
 // New creates new App from Config
 func New(config Config) App {
 	return App{
-		req: request.New().Post(strings.TrimSpace(*config.address)).Path("/api/annotations").BasicAuth(strings.TrimSpace(*config.username), *config.password),
+		req: request.Post(strings.TrimSpace(*config.address)).Path("/api/annotations").BasicAuth(strings.TrimSpace(*config.username), *config.password),
 	}
 }
 
