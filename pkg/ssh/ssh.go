@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ViBiOh/httputils/v4/pkg/flags"
+	"github.com/ViBiOh/flags"
 	"github.com/ViBiOh/httputils/v4/pkg/httperror"
 	"github.com/ViBiOh/httputils/v4/pkg/logger"
 	"github.com/ViBiOh/httputils/v4/pkg/request"
