@@ -22,13 +22,11 @@ import (
 	"github.com/ViBiOh/notifier/pkg/alertmanager"
 	"github.com/ViBiOh/notifier/pkg/flux"
 	"github.com/ViBiOh/notifier/pkg/grafana"
-	"github.com/ViBiOh/notifier/pkg/ssh"
 )
 
 const (
 	alertmanagerPath = "/alertmanager"
 	fluxPath         = "/flux"
-	sshPath          = "/ssh"
 )
 
 func main() {
@@ -43,8 +41,6 @@ func main() {
 	prometheusConfig := prometheus.Flags(fs, "prometheus", flags.NewOverride("Gzip", false))
 	owaspConfig := owasp.Flags(fs, "")
 	corsConfig := cors.Flags(fs, "cors")
-
-	sshConfig := ssh.Flags(fs, "ssh")
 
 	alertmanagerConfig := alertmanager.Flags(fs, "alertmanager")
 	grafanaConfig := grafana.Flags(fs, "grafana")
@@ -69,7 +65,6 @@ func main() {
 
 	alertmanagerApp := http.StripPrefix(alertmanagerPath, alertmanager.New(alertmanagerConfig, mailerClient).Handler())
 	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
-	sshHandler := http.StripPrefix(sshPath, ssh.New(sshConfig, mailerClient).Handler())
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, alertmanagerPath) {
@@ -79,11 +74,6 @@ func main() {
 
 		if strings.HasPrefix(r.URL.Path, fluxPath) {
 			fluxHandler.ServeHTTP(w, r)
-			return
-		}
-
-		if strings.HasPrefix(r.URL.Path, sshPath) {
-			sshHandler.ServeHTTP(w, r)
 			return
 		}
 

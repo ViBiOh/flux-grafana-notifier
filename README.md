@@ -112,10 +112,6 @@ Usage of notifier:
         [server] Read Timeout {NOTIFIER_READ_TIMEOUT} (default "5s")
   -shutdownTimeout string
         [server] Shutdown Timeout {NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
-  -sshRecipient string
-        [ssh] SSH Notification recipient {NOTIFIER_SSH_RECIPIENT}
-  -sshSender string
-        [ssh] SSH Notification sender {NOTIFIER_SSH_SENDER}
   -url string
         [alcotest] URL to check {NOTIFIER_URL}
   -userAgent string
