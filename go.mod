@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/ViBiOh/flags v0.0.1
-	github.com/ViBiOh/httputils/v4 v4.34.8
-	github.com/ViBiOh/mailer v1.27.12
+	github.com/ViBiOh/httputils/v4 v4.35.1
+	github.com/ViBiOh/mailer v1.27.14
 	github.com/fluxcd/pkg/recorder v0.0.6
 	github.com/stretchr/testify v1.7.0 // indirect
 )
