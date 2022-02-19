@@ -1,7 +1,6 @@
 package flux
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -46,7 +45,7 @@ func (a App) Handler() http.Handler {
 		switch r.URL.Path {
 		case "/grafana":
 			w.WriteHeader(http.StatusOK)
-			a.grafanaApp.Send(context.Background(), text, event.InvolvedObject.Kind, event.InvolvedObject.Namespace, event.InvolvedObject.Name, event.Severity)
+			a.grafanaApp.Send(r.Context(), text, event.InvolvedObject.Kind, event.InvolvedObject.Namespace, event.InvolvedObject.Name, event.Severity)
 		default:
 			w.WriteHeader(http.StatusBadRequest)
 		}

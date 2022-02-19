@@ -1,7 +1,6 @@
 package alertmanager
 
 import (
-	"context"
 	"flag"
 	"net/http"
 	"strings"
@@ -102,7 +101,7 @@ func (a App) Handler() http.Handler {
 		switch r.URL.Path {
 		case "/mail":
 			w.WriteHeader(http.StatusOK)
-			if err := a.mailerApp.Send(context.Background(), model.NewMailRequest().From(a.sender).As("Alertmanager").WithSubject(subject).To(a.recipient).Template("alertmanager").Data(payload)); err != nil {
+			if err := a.mailerApp.Send(r.Context(), model.NewMailRequest().From(a.sender).As("Alertmanager").WithSubject(subject).To(a.recipient).Template("alertmanager").Data(payload)); err != nil {
 				logger.Error("unable to send alertmanager mail: %s", err)
 			}
 		default:
