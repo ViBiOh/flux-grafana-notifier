@@ -41,8 +41,8 @@ spec:
       enabled: true
       compress: true
       hosts:
-      - notifier.vibioh.fr
+        - notifier.vibioh.fr
       https_middlewares:
-      - notifier-auth
+        - notifier-auth
     pprof:
       enabled: true

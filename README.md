@@ -112,6 +112,10 @@ Usage of notifier:
         [server] Read Timeout {NOTIFIER_READ_TIMEOUT} (default "5s")
   -shutdownTimeout string
         [server] Shutdown Timeout {NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
+  -tracerRate string
+        [tracer] Jaeger sample rate, 'always', 'never' or a float value {NOTIFIER_TRACER_RATE} (default "always")
+  -tracerURL string
+        [tracer] Jaeger endpoint URL (e.g. http://jaeger:14268/api/traces) {NOTIFIER_TRACER_URL}
   -url string
         [alcotest] URL to check {NOTIFIER_URL}
   -userAgent string
