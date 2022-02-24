@@ -23,13 +23,10 @@ import (
 	"github.com/ViBiOh/mailer/pkg/client"
 	mailer "github.com/ViBiOh/mailer/pkg/client"
 	"github.com/ViBiOh/notifier/pkg/alertmanager"
-	"github.com/ViBiOh/notifier/pkg/flux"
-	"github.com/ViBiOh/notifier/pkg/grafana"
 )
 
 const (
 	alertmanagerPath = "/alertmanager"
-	fluxPath         = "/flux"
 )
 
 func main() {
@@ -47,7 +44,6 @@ func main() {
 	corsConfig := cors.Flags(fs, "cors")
 
 	alertmanagerConfig := alertmanager.Flags(fs, "alertmanager")
-	grafanaConfig := grafana.Flags(fs, "grafana")
 	mailerConfig := mailer.Flags(fs, "mailer")
 
 	logger.Fatal(fs.Parse(os.Args[1:]))
@@ -70,23 +66,15 @@ func main() {
 	prometheusApp := prometheus.New(prometheusConfig)
 	healthApp := health.New(healthConfig)
 
-	grafanaApp := grafana.New(grafanaConfig)
-
 	mailerClient, err := client.New(mailerConfig, prometheusApp.Registerer())
 	logger.Fatal(err)
 	defer mailerClient.Close()
 
 	alertmanagerApp := http.StripPrefix(alertmanagerPath, alertmanager.New(alertmanagerConfig, mailerClient).Handler())
-	fluxHandler := http.StripPrefix(fluxPath, flux.New(grafanaApp).Handler())
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasPrefix(r.URL.Path, alertmanagerPath) {
 			alertmanagerApp.ServeHTTP(w, r)
-			return
-		}
-
-		if strings.HasPrefix(r.URL.Path, fluxPath) {
-			fluxHandler.ServeHTTP(w, r)
 			return
 		}
 

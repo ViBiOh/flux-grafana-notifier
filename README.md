@@ -56,12 +56,6 @@ Usage of notifier:
         [owasp] X-Frame-Options {NOTIFIER_FRAME_OPTIONS} (default "deny")
   -graceDuration string
         [http] Grace duration when SIGTERM received {NOTIFIER_GRACE_DURATION} (default "30s")
-  -grafanaAddress string
-        [grafana] Grafana Address {NOTIFIER_GRAFANA_ADDRESS} (default "http://grafana")
-  -grafanaPassword string
-        [grafana] Grafana Basic Auth Password {NOTIFIER_GRAFANA_PASSWORD}
-  -grafanaUsername string
-        [grafana] Grafana Basic Auth Username {NOTIFIER_GRAFANA_USERNAME}
   -hsts
         [owasp] Indicate Strict Transport Security {NOTIFIER_HSTS} (default true)
   -idleTimeout string
