@@ -65,8 +65,8 @@ type Config struct {
 // Flags adds flags for configuring package
 func Flags(fs *flag.FlagSet, prefix string, overrides ...flags.Override) Config {
 	return Config{
-		sender:    flags.New(prefix, "alertmanager", "sender").Default("", overrides).Label("Alertmanager sender").ToString(fs),
-		recipient: flags.New(prefix, "alertmanager", "recipient").Default("", overrides).Label("Alertmanager recipient").ToString(fs),
+		sender:    flags.String(fs, prefix, "alertmanager", "sender", "Alertmanager sender", "", overrides),
+		recipient: flags.String(fs, prefix, "alertmanager", "recipient", "Alertmanager recipient", "", overrides),
 	}
 }
 
