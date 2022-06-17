@@ -54,12 +54,12 @@ Usage of notifier:
         [owasp] Content-Security-Policy {NOTIFIER_CSP} (default "default-src 'self'; base-uri 'self'")
   -frameOptions string
         [owasp] X-Frame-Options {NOTIFIER_FRAME_OPTIONS} (default "deny")
-  -graceDuration string
-        [http] Grace duration when SIGTERM received {NOTIFIER_GRACE_DURATION} (default "30s")
+  -graceDuration duration
+        [http] Grace duration when SIGTERM received {NOTIFIER_GRACE_DURATION} (default 30s)
   -hsts
         [owasp] Indicate Strict Transport Security {NOTIFIER_HSTS} (default true)
-  -idleTimeout string
-        [server] Idle Timeout {NOTIFIER_IDLE_TIMEOUT} (default "2m")
+  -idleTimeout duration
+        [server] Idle Timeout {NOTIFIER_IDLE_TIMEOUT} (default 2m0s)
   -key string
         [server] Key file {NOTIFIER_KEY}
   -loggerJson
@@ -88,24 +88,24 @@ Usage of notifier:
         [prometheus] Certificate file {NOTIFIER_PROMETHEUS_CERT}
   -prometheusGzip
         [prometheus] Enable gzip compression of metrics output {NOTIFIER_PROMETHEUS_GZIP}
-  -prometheusIdleTimeout string
-        [prometheus] Idle Timeout {NOTIFIER_PROMETHEUS_IDLE_TIMEOUT} (default "10s")
+  -prometheusIdleTimeout duration
+        [prometheus] Idle Timeout {NOTIFIER_PROMETHEUS_IDLE_TIMEOUT} (default 10s)
   -prometheusIgnore string
         [prometheus] Ignored path prefixes for metrics, comma separated {NOTIFIER_PROMETHEUS_IGNORE}
   -prometheusKey string
         [prometheus] Key file {NOTIFIER_PROMETHEUS_KEY}
   -prometheusPort uint
         [prometheus] Listen port (0 to disable) {NOTIFIER_PROMETHEUS_PORT} (default 9090)
-  -prometheusReadTimeout string
-        [prometheus] Read Timeout {NOTIFIER_PROMETHEUS_READ_TIMEOUT} (default "5s")
-  -prometheusShutdownTimeout string
-        [prometheus] Shutdown Timeout {NOTIFIER_PROMETHEUS_SHUTDOWN_TIMEOUT} (default "5s")
-  -prometheusWriteTimeout string
-        [prometheus] Write Timeout {NOTIFIER_PROMETHEUS_WRITE_TIMEOUT} (default "10s")
-  -readTimeout string
-        [server] Read Timeout {NOTIFIER_READ_TIMEOUT} (default "5s")
-  -shutdownTimeout string
-        [server] Shutdown Timeout {NOTIFIER_SHUTDOWN_TIMEOUT} (default "10s")
+  -prometheusReadTimeout duration
+        [prometheus] Read Timeout {NOTIFIER_PROMETHEUS_READ_TIMEOUT} (default 5s)
+  -prometheusShutdownTimeout duration
+        [prometheus] Shutdown Timeout {NOTIFIER_PROMETHEUS_SHUTDOWN_TIMEOUT} (default 5s)
+  -prometheusWriteTimeout duration
+        [prometheus] Write Timeout {NOTIFIER_PROMETHEUS_WRITE_TIMEOUT} (default 10s)
+  -readTimeout duration
+        [server] Read Timeout {NOTIFIER_READ_TIMEOUT} (default 5s)
+  -shutdownTimeout duration
+        [server] Shutdown Timeout {NOTIFIER_SHUTDOWN_TIMEOUT} (default 10s)
   -tracerRate string
         [tracer] Jaeger sample rate, 'always', 'never' or a float value {NOTIFIER_TRACER_RATE} (default "always")
   -tracerURL string
@@ -114,6 +114,6 @@ Usage of notifier:
         [alcotest] URL to check {NOTIFIER_URL}
   -userAgent string
         [alcotest] User-Agent for check {NOTIFIER_USER_AGENT} (default "Alcotest")
-  -writeTimeout string
-        [server] Write Timeout {NOTIFIER_WRITE_TIMEOUT} (default "10s")
+  -writeTimeout duration
+        [server] Write Timeout {NOTIFIER_WRITE_TIMEOUT} (default 10s)
 ```
