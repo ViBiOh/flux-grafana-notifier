@@ -25,7 +25,7 @@ spec:
     nameOverride: notifier
     image:
       name: vibioh/notifier
-      tag: "202207310856" # {"$imagepolicy": "default:flux-notifier-api:tag"}
+      tag: "202208070852" # {"$imagepolicy": "default:flux-notifier-api:tag"}
     config:
       NOTIFIER_LOGGER_JSON: "true"
       NOTIFIER_TRACER_URL: http://jaeger.monitoring:14268/api/traces
