@@ -102,7 +102,7 @@ func (a App) Handler() http.Handler {
 		case "/mail":
 			w.WriteHeader(http.StatusOK)
 			if err := a.mailerApp.Send(r.Context(), model.NewMailRequest().From(a.sender).As("Alertmanager").WithSubject(subject).To(a.recipient).Template("alertmanager").Data(payload)); err != nil {
-				logger.Error("unable to send alertmanager mail: %s", err)
+				logger.Error("send alertmanager mail: %s", err)
 			}
 		default:
 			w.WriteHeader(http.StatusBadRequest)
