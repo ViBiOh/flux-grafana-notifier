@@ -67,7 +67,7 @@ func main() {
 	prometheusApp := prometheus.New(prometheusConfig)
 	healthApp := health.New(healthConfig)
 
-	mailerClient, err := client.New(mailerConfig, prometheusApp.Registerer())
+	mailerClient, err := client.New(mailerConfig, prometheusApp.Registerer(), tracerApp.GetTracer("mailer"))
 	logger.Fatal(err)
 	defer mailerClient.Close()
 
