@@ -25,7 +25,7 @@ spec:
     nameOverride: notifier
     image:
       name: vibioh/notifier
-      tag: "202303051857" # {"$imagepolicy": "default:flux-notifier-api:tag"}
+      tag: "202303121302" # {"$imagepolicy": "default:flux-notifier-api:tag"}
     config:
       NOTIFIER_LOGGER_JSON: "true"
       NOTIFIER_TRACER_URL: otel-collector.monitoring:4317
