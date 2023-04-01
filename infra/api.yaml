@@ -27,6 +27,7 @@ spec:
       name: vibioh/notifier
       tag: "202303250925" # {"$imagepolicy": "default:flux-notifier-api:tag"}
     config:
+      GOMAXPROCS: "1"
       NOTIFIER_LOGGER_JSON: "true"
       NOTIFIER_TRACER_URL: otel-collector.monitoring:4317
       OTEL_SERVICE_NAME: notifier
